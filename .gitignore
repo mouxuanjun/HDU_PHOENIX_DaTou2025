@@ -1,0 +1,14 @@
+# 所有可执行文件
+/**/*.exe
+
+#keilIDE编辑器忽略项
+/**/MDK-ARM/*
+
+#不忽略keil工程配置文件
+!/**/MDK-ARM/*.uvoptx
+!/**/MDK_ARM/*.uvprojx
+!/**/MDK_ARM/startup_*.s
+
+#VSCode编辑器忽略项
+/**/.vscode
+/**/workspace.code-workspace
