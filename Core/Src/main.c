@@ -57,7 +57,7 @@ Car_Action Last_Action;
 Chassis_Speed_t Temp_Chassis_Speed;
 Chassis_Speed_t Chassis_Speed;
 Gimbal_Add_t Gimbal_Add;
-PID_struct_t Yaw_PID,Follow_PID;
+PID_struct_t Follow_PID;
 Computer_Rx_Message_t Computer_Rx_Message;
 Computer_Tx_Message_t Computer_Tx_Message;
 /* USER CODE END PTD */

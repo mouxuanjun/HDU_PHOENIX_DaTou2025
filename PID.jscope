@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<JScopeProject>
+    <FileVersion major="1" minor="1" />
+    <Project>
+        <Configuration>
+            <JLink>
+                <Options Connection="1" IsRTTSession="0" IsRTTWithTimeStamp="0" SamplingPeriod="100" SerialNo="0" JTAG_IRPre="0" JTAG_DRPre="0" IP="" TargetDevice="STM32F407IG" TargetInterface="SWD" InterfaceSpeed="4000" />
+            </JLink>
+            <ElfFile Name="D:\robomaster\OmnibearingCar_3.0\MDK-ARM\OmnibearingCar\OmnibearingCar.axf" />
+            <Scope>
+                <Options TimeResolutionUs="1000000" />
+            </Scope>
+        </Configuration>
+        <Windows>
+            <Graph Show="1" />
+            <Watch Show="1" />
+        </Windows>
+        <SelectedSymbols>
+            <Symbol>
+                <Options Name="Set_Yaw" Address="0x20000000" Type="float" TypeID="1" Size="4" GraphColorRed="107" GraphColorGreen="255" GraphColorBlue="62" YMinSampled="0.377738" YMaxSampled="359.859" YAvgSampled="139.42" Offset="4" ShowInGraph="1" ACCoupling="0" YOffset="-3" IsAutoConfig="0" YResolution="50" MaxValue="-2147483648" File="../Core/Src/main.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="IMU_angle[0]" Address="0x200002A0" Type="float" TypeID="1" Size="4" GraphColorRed="255" GraphColorGreen="42" GraphColorBlue="106" YMinSampled="-5.02725" YMaxSampled="353.611" YAvgSampled="139.449" Offset="8" ShowInGraph="1" ACCoupling="0" YOffset="-3" IsAutoConfig="0" YResolution="50" MaxValue="0" File="../Core/Src/main.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+        </SelectedSymbols>
+    </Project>
+</JScopeProject>

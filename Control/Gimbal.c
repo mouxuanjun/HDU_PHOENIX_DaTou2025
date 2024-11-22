@@ -7,7 +7,6 @@ extern Moto_GM6020_t GM6020_Yaw,GM6020_Pitch;
 extern Car_Mode_t Car_Mode;
 extern RC_t RC;
 extern Gimbal_Add_t Gimbal_Add;
-extern PID_struct_t Yaw_PID;
 extern float Set_Yaw;
 extern Computer_Rx_Message_t Computer_Rx_Message;
 
@@ -118,8 +117,8 @@ void Gimbal_Remote_Control(void)
 void Gimbal_PID_Calc(void)
 {
     //Yaw
-    PID_Calc_Ink(&Yaw_PID,Set_Yaw,IMU_angle[0]);
-    GM6020_Yaw.Set_Speed = Yaw_PID.output;
+    PID_Calc_Ink(&GM6020_Yaw.Angle_PID,Set_Yaw,IMU_angle[0]);
+    GM6020_Yaw.Set_Speed = GM6020_Yaw.Angle_PID.output;
     PID_Calc_Speed(&(GM6020_Yaw.Speed_PID),GM6020_Yaw.Set_Speed,GM6020_Yaw.rotor_speed);
     //Pitch
     PID_Calc_Angle(&(GM6020_Pitch.Angle_PID),GM6020_Pitch.Set_Angle,GM6020_Pitch.rotor_angle);
@@ -137,8 +136,8 @@ void Gimbal_PID_Init_All(void)
 {
 	Gimbal_Init();
 
-		PID_init(&Yaw_PID,35,0.01,0,16308,16308);//2.2,0,0
-    PID_init(&(GM6020_Yaw.Speed_PID),40,0.3,250,16308,16308);//400,0.38,0
+	PID_init(&GM6020_Yaw.Angle_PID,35,0.01,0,16308,16308);//2.2,0,0;35,0.01,0
+    PID_init(&(GM6020_Yaw.Speed_PID),40,0.3,250,16308,16308);//400,0.38,0;40,0.3,250
 
     PID_init(&(GM6020_Pitch.Angle_PID),2.5,0.01,0,16308,16308);//2.5£¬0.01£¬0//4,0,0
     PID_init(&(GM6020_Pitch.Speed_PID),50,0.3,0,16308,16308);//50£¬0.3£¬0//32,0.3,0
@@ -154,6 +153,6 @@ void Gimbal_PID_Clean_All(void)
 {
     PID_init(&(GM6020_Pitch.Angle_PID),0,0,0,0,0);
     PID_init(&(GM6020_Pitch.Speed_PID),0,0,0,0,0);
-    PID_init(&Yaw_PID,0,0,0,0,0);
+    PID_init(&GM6020_Yaw.Angle_PID,0,0,0,0,0);
     PID_init(&(GM6020_Yaw.Speed_PID),0,0,0,0,0);
 }
