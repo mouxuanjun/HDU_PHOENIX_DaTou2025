@@ -179,7 +179,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>??</Name>
+          <Name>/</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -302,57 +302,32 @@
         <Ww>
           <count>17</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Yaw_PID</ItemText>
+          <ItemText>GM6020_Yaw</ItemText>
         </Ww>
         <Ww>
           <count>18</count>
           <WinNumber>1</WinNumber>
-          <ItemText>GM6020_Yaw</ItemText>
+          <ItemText>Follow_PID</ItemText>
         </Ww>
         <Ww>
           <count>19</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Follow_PID</ItemText>
+          <ItemText>Rx_data,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>20</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Rx_data,0x0A</ItemText>
+          <ItemText>Computer_Rx_Message,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>21</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Computer_Rx_Message,0x0A</ItemText>
+          <ItemText>Computer_Tx_Message,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>22</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Computer_Tx_Message,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>23</count>
-          <WinNumber>1</WinNumber>
           <ItemText>Tx_data,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>24</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>\\OmnibearingCar\../Control/Computer.c\Rx_data[11]</ItemText>
-        </Ww>
-        <Ww>
-          <count>25</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>\\OmnibearingCar\../Control/Computer.c\Tx_data[5]</ItemText>
-        </Ww>
-        <Ww>
-          <count>26</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>\\OmnibearingCar\../Control/Computer.c\Tx_data[9]</ItemText>
-        </Ww>
-        <Ww>
-          <count>27</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>yaw_offset</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

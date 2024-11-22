@@ -51,7 +51,7 @@ void Car_Init(void)
 {
 	Car_Mode.State = Car_Stop;
 	Car_Mode.Action = NORMAL;
-	Car_Mode.Shoot = Shoot_Normal;
+	Car_Mode.Shoot = Shoot_Sustain;
 }
 
 
@@ -121,8 +121,10 @@ void Control_Mode_Choose(void)
 			Car_Mode.Shoot = Shoot_Plugins;
 			break;
 		case 3:
+			Car_Mode.Shoot = Shoot_Single;
+			break;
 		case 2:
-			Car_Mode.Shoot = Shoot_Normal;
+			Car_Mode.Shoot = Shoot_Sustain;
 			break;
 		}
 	}
