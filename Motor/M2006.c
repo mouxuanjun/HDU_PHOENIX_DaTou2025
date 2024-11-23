@@ -2,13 +2,10 @@
 
 extern Moto_M2006_t M2006_Rammer;
 
-
-void get_total_angle(Moto_M2006_t *p);
-
 int ABS(int x)
 {
 	if(x<0)
-		return x*-1;
+		return -x;
 	else
 		return x;
 }
@@ -30,7 +27,7 @@ void Get_M2006_Motor_Message(uint32_t StdId,uint8_t rx_data[8])
             M2006_Rammer.rotor_angle    = ((rx_data[0] << 8) | rx_data[1]);//接收机械角度（16bit）
             M2006_Rammer.rotor_speed    = ((rx_data[2] << 8) | rx_data[3]);//接收转速（16bit）
             M2006_Rammer.torque_current = ((rx_data[4] << 8) | rx_data[5]);//接收实际转矩
-            get_total_angle(&M2006_Rammer);
+            Get_Total_Angle(&M2006_Rammer);
             break;
         }
         default:
@@ -62,9 +59,10 @@ void Set_M2006_Motor_Voltage(CAN_HandleTypeDef* hcan,Moto_M2006_t M2006_Rammer)
     HAL_CAN_AddTxMessage(&hcan2, &tx_header, tx_data,(uint32_t*)CAN_TX_MAILBOX0);
 }
 
-void get_total_angle(Moto_M2006_t *p)
+
+void Get_Total_Angle(Moto_M2006_t *p)
 {
-    int res1, res2, delta;
+    int res1=0, res2=0, delta=0;
     if(p->rotor_angle < p->last_angle)
   {            //可能的情况
         res1 = p->rotor_angle + 8192 - p->last_angle;    //正转，delta=+
@@ -77,9 +75,9 @@ void get_total_angle(Moto_M2006_t *p)
     }
     //不管正反转，肯定是转的角度小的那个是真的
     if(ABS(res1)<ABS(res2))
-        delta = res1;
+        delta = ABS(res1);
     else
-        delta = res2;
+        delta = ABS(res2);
 
     p->total_angle += delta;
     p->last_angle = p->rotor_angle;    

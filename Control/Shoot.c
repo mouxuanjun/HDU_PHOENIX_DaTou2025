@@ -6,7 +6,7 @@ extern Moto_M2006_t M2006_Rammer;
 extern Moto_M3508_t M3508_Shoot[2];
 extern Computer_Rx_Message_t Computer_Rx_Message;
 
-static uint8_t Single_Mode;
+static uint8_t Single_Mode,Have_Shoot;
 
 /********************换弹部分********************/
 void Shoot_Reload_Choose(void);
@@ -32,13 +32,13 @@ void Shoot_PID_Calc(void);
  */
 void Shoot_Reload_Choose(void)
 {
-//    if(RC.wheel <= -300)
-//    {
+    if(RC.wheel <= -300)
+    {
         __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,2500);
-//    }else
-//    {
-//        __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,850);
-//    }
+    }else
+    {
+        __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,850);
+    }
 }
 
 /**
@@ -79,26 +79,31 @@ void Shoot_Remote_Control(void)
     case Shoot_Plugins:
         break;
     case Shoot_Single:
-        if(RC.wheel >= 300 && Single_Mode == 0)
+        if(RC.wheel >= 300 && Single_Mode == 0 && RC.s1 == 2)
         {
+            Have_Shoot = 1;
             Single_Mode = 1;
-        }
-        if(Single_Mode == 1) //还未打弹
+        }else if(RC.wheel == 0 && Single_Mode == 1)
         {
-            if(fabs(M2006_Rammer.total_angle) < fabs(MOTOR_2006_CIRCLE_ANGLE / 8.0f)) //未转过一个齿位
+            Single_Mode = 0;
+        }
+
+        if(Have_Shoot == 1) //还未打弹
+        {
+            if(ABS(M2006_Rammer.total_angle) < MOTOR_2006_CIRCLE_ANGLE / 8.0f) //未转过一个齿位
             {
                 M2006_Rammer.Set_Speed = -1600;
             }
             else
             {
                 M2006_Rammer.Set_Speed = 0;
-                Single_Mode = 0;
+                Have_Shoot = 0;
                 M2006_Rammer.total_angle = 0;
             }
         }
         break;
     case Shoot_Sustain:
-			if(RC.wheel >= 300)
+			if(RC.wheel >= 300 && RC.s1 == 2)
 			{
                 M2006_Rammer.Set_Speed = -1600;
 			}else 
@@ -137,7 +142,7 @@ void Shoot_PID_Init_ALL(void)
 {
     PID_init(&(M3508_Shoot[0].PID),40,0,0,16380,16380);
     PID_init(&(M3508_Shoot[1].PID),40,00,0,16380,16380);
-    PID_init(&(M2006_Rammer.Speed_PID),20,0.02,0,16380,16380);
+    PID_init(&(M2006_Rammer.Speed_PID),20,0,10,16380,16380);
 }
 
 /**

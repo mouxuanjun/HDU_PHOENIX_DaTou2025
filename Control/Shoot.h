@@ -7,7 +7,6 @@
 #include "Remote.h"
 #include "M3508.h"
 #include "M2006.h"
-#include "math.h"
 
 #define Single_Angle 1024
 
