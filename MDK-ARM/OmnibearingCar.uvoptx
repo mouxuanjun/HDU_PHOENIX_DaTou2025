@@ -178,6 +178,10 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
+          <Key>DLGUARM</Key>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
           <Key>ARMRTXEVENTFLAGS</Key>
           <Name>-L70 -Z18 -C0 -M0 -T1</Name>
         </SetRegEntry>
@@ -297,7 +301,7 @@
         <Ww>
           <count>17</count>
           <WinNumber>1</WinNumber>
-          <ItemText>GM6020_Yaw</ItemText>
+          <ItemText>GM6020_Yaw,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>18</count>
@@ -323,6 +327,16 @@
           <count>22</count>
           <WinNumber>1</WinNumber>
           <ItemText>Tx_data,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>23</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>\\OmnibearingCar\../Core/Src/main.c\GM6020_Yaw.Speed_PID.kp</ItemText>
+        </Ww>
+        <Ww>
+          <count>24</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>yaw_add_one_tick</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
@@ -1453,7 +1467,7 @@
 
   <Group>
     <GroupName>IMU</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

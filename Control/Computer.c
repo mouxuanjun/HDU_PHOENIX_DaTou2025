@@ -52,7 +52,7 @@ void Computer_Rx(void)
 
 		Computer_Rx_Message.end = Rx_data[31];
 
-    Computer_Rx_Message.pitch = Gimbal_Pitch_ZERO-Computer_Rx_Message.pitch*22.755556f;//把角度值转化成编码器的值
+    Computer_Rx_Message.pitch = Gimbal_Pitch_ZERO+Computer_Rx_Message.pitch*22.755556f;//把角度值转化成编码器的值
 	}
 }
 
@@ -64,8 +64,8 @@ void Computer_Rx(void)
  */
 void Computer_Tx(void)
 {
-		Computer_Tx_Message.yaw = IMU_angle[0];
-    Computer_Tx_Message.pitch = (GM6020_Pitch.rotor_angle-Gimbal_Pitch_ZERO)*0.043945f;//把编码器的值转换成Pitch角度值
+		Computer_Tx_Message.yaw = IMU_angle[0]*0.0174444f;
+    Computer_Tx_Message.pitch = -(GM6020_Pitch.rotor_angle-Gimbal_Pitch_ZERO)*0.0007660156f;//把编码器的值转换成Pitch角度值
 		
     Tx_data[0] = *(char*)&Computer_Tx_Message.start;
 

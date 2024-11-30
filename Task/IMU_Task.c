@@ -176,7 +176,7 @@ extern float IMU_angle[3];
 float imu_vision[3]={0.0f,0.0f,0.0f};
 
 float *IMU_kf_result;
-float yaw_add_one_tick=-5.00000024e-05f;
+float yaw_add_one_tick=-7e-05f;
 float yaw_offset;
 
 
