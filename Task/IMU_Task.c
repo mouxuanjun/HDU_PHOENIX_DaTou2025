@@ -176,8 +176,8 @@ extern float IMU_angle[3];
 float imu_vision[3]={0.0f,0.0f,0.0f};
 
 float *IMU_kf_result;
-float yaw_add_one_tick=-7e-05f;
-float yaw_offset;
+float yaw_add_one_tick=-0.000199999995f;
+float yaw_offset; 
 
 
 /**
@@ -298,7 +298,7 @@ void INS_Task(void const *pvParameters)
 				int tick = HAL_GetTick();
 				if (pre_tick)
 				yaw_offset += yaw_add_one_tick * (tick - pre_tick);
-				IMU_angle[0] = 180.0f*INS_angle[0]/PI+yaw_offset+180.0f;   //yaw_offset; //yaw
+				IMU_angle[0] = 180.0f*INS_angle[0]/PI+yaw_offset;   //yaw_offset; //yaw
 				IMU_angle[1] = 180.0f*INS_angle[1]/PI+180.0f; //pitch
 				IMU_angle[2] = 180.0f*INS_angle[2]/PI+180.0f; //roll
         pre_tick = tick;

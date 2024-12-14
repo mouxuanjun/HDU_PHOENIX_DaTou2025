@@ -65,7 +65,7 @@ void Computer_Rx(void)
 void Computer_Tx(void)
 {
 		Computer_Tx_Message.yaw = IMU_angle[0]*0.0174444f;
-    Computer_Tx_Message.pitch = -(GM6020_Pitch.rotor_angle-Gimbal_Pitch_ZERO)*0.0007660156f;//把编码器的值转换成Pitch角度值
+    Computer_Tx_Message.pitch = (GM6020_Pitch.rotor_angle-Gimbal_Pitch_ZERO)*0.0007660156f;//把编码器的值转换成Pitch角度值
 		
     Tx_data[0] = *(char*)&Computer_Tx_Message.start;
 
