@@ -54,7 +54,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 	if(hcan->Instance == CAN1)
   {
 
-    if(rx_header.StdId >= 0x205 && rx_header.StdId <= 0x207)
+    if(rx_header.StdId == 0x207)
     {
       Get_GM6020_Motor_Message(rx_header.StdId,rx_data);
     }else if(rx_header.StdId >= 0x201 && rx_header.StdId <= 0x204)
@@ -71,7 +71,10 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
     }else if(rx_header.StdId == 0x203 || rx_header.StdId == 0x204)
     {
       Get_M3508_Shoot_Message(rx_header.StdId,rx_data);
-    }    
+    }else if(rx_header.StdId == 0x205)
+    {
+      Get_GM6020_Motor_Message(rx_header.StdId,rx_data);
+    }
   }
 }
 

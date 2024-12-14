@@ -45,17 +45,17 @@ void Get_GM6020_Motor_Message(uint32_t StdId,uint8_t rx_data[8])
 void Set_GM6020_Gimbal_Voltage(CAN_HandleTypeDef* hcan,Moto_GM6020_t GM6020_Yaw,Moto_GM6020_t GM6020_Pitch)
 {
     CAN_TxHeaderTypeDef tx_header;
-    uint8_t             tx_data[8] = {0};
+    uint8_t             CAN1_tx_data[8] = {0},CAN2_tx_data[8] = {0};
     
     tx_header.StdId = 0X1FF;//标识符（见手册P6）
     tx_header.IDE   = CAN_ID_STD;//标准ID
     tx_header.RTR   = CAN_RTR_DATA;//数据帧
     tx_header.DLC   = 8;//字节长度
-    tx_data[4] = ((int16_t)GM6020_Yaw.Speed_PID.output>>8)&0xff;
-    tx_data[5] = ((int16_t)GM6020_Yaw.Speed_PID.output)&0xff;
-    
-    tx_data[0] = ((int16_t)GM6020_Pitch.Speed_PID.output>>8)&0xff;
-    tx_data[1] = ((int16_t)GM6020_Pitch.Speed_PID.output)&0xff;
+    CAN1_tx_data[4] = ((int16_t)GM6020_Yaw.Speed_PID.output>>8)&0xff;
+    CAN1_tx_data[5] = ((int16_t)GM6020_Yaw.Speed_PID.output)&0xff;
+    HAL_CAN_AddTxMessage(&hcan1, &tx_header, CAN1_tx_data,(uint32_t*)CAN_TX_MAILBOX0);
 
-    HAL_CAN_AddTxMessage(&hcan1, &tx_header, tx_data,(uint32_t*)CAN_TX_MAILBOX0);
+    CAN2_tx_data[0] = ((int16_t)GM6020_Pitch.Speed_PID.output>>8)&0xff;
+    CAN2_tx_data[1] = ((int16_t)GM6020_Pitch.Speed_PID.output)&0xff;
+    HAL_CAN_AddTxMessage(&hcan2, &tx_header, CAN2_tx_data,(uint32_t*)CAN_TX_MAILBOX0);
 }

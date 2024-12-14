@@ -50,7 +50,7 @@ void Gimbal_Calculate(void)
     switch(Car_Mode.Shoot)
     {
 	case Shoot_Sustain:
-    case Shoot_Single:
+    case Shoot_Single: 
         Set_Yaw -= Gimbal_Add.Yaw;
         GM6020_Pitch.Set_Angle += Gimbal_Add.Pitch;
         break;
