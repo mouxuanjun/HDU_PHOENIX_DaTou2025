@@ -21,6 +21,6 @@ void GimbalTask(void const * argument)
         default:
             break;
         }
-        vTaskDelayUntil(&currentTime,2);//绝对延时
+        vTaskDelayUntil(&currentTime,1);//绝对延时
     }
 }

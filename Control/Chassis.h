@@ -9,7 +9,7 @@
 #include "PID.h"
 #include "Car_Mode.h"
 
-#define Gimbal_Yaw_ZERO 6703 //云台正方向和底盘正方向重合时候的编码值
+#define Gimbal_Yaw_ZERO 7422 //云台正方向和底盘正方向重合时候的编码值
 #define Gimbal_length 25 //mm底盘半径
 #define CHASSIS_DECELE_RATIO 19 //减速比
 #define Speed_Set 2000//速度

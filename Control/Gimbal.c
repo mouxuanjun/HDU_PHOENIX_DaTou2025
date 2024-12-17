@@ -138,7 +138,7 @@ void Gimbal_PID_Init_All(void)
 	Gimbal_Init();
 
 	PID_init(&GM6020_Yaw.Angle_PID,110,0.045,800,16308,16308);//110,0.05,830
-  PID_init(&(GM6020_Yaw.Speed_PID),80,0.45,250,16308,16308);//80,0.45,150
+  PID_init(&(GM6020_Yaw.Speed_PID),80,0.45,150,16308,16308);//80,0.45,150
 
     PID_init(&(GM6020_Pitch.Angle_PID),2,0,0,16308,16308);//2.5£¬0.01£¬0//4,0,0
     PID_init(&(GM6020_Pitch.Speed_PID),35,0.25,0,16308,16308);//50£¬0.3£¬0//32,0.3,0
