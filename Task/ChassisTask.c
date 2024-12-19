@@ -12,7 +12,7 @@ void ChassisTask(void const * argument)
         switch (Car_Mode.State)
         {
         case Car_Remote:
-						Chassis_Remote_Control();
+			Chassis_Remote_Control();
             Chassis_Move();
             break;
         case Car_Keyboard:

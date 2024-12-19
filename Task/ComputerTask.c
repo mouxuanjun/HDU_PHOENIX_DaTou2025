@@ -5,6 +5,7 @@
 void ComputerTask(void const * argument)
 {
   Computer_Init();
+	
   while(1)
   { 
     Computer_Rx();

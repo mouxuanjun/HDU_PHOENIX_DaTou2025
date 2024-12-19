@@ -132,6 +132,7 @@ int main(void)
 	HAL_UART_Receive_DMA(&huart3,RC_Data,sizeof(RC_Data));
 	Car_Init();
 	MX_USB_DEVICE_Init();
+	Computer_Init();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in cmsis_os2.c) */

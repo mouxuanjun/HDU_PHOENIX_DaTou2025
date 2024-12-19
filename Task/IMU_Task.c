@@ -293,15 +293,17 @@ void INS_Task(void const *pvParameters)
         AHRS_update(INS_quat, timing_time, INS_gyro, accel_fliter_3, INS_mag);
         get_angle(INS_quat, INS_angle + INS_YAW_ADDRESS_OFFSET, INS_angle + INS_PITCH_ADDRESS_OFFSET, INS_angle + INS_ROLL_ADDRESS_OFFSET);
 
-				//消零飘
-				static int pre_tick = 0;
-				int tick = HAL_GetTick();
-				if (pre_tick)
-				yaw_offset += yaw_add_one_tick * (tick - pre_tick);
-				IMU_angle[0] = 180.0f*INS_angle[0]/PI+yaw_offset;   //yaw_offset; //yaw
-				IMU_angle[1] = 180.0f*INS_angle[1]/PI+180.0f; //pitch
-				IMU_angle[2] = 180.0f*INS_angle[2]/PI+180.0f; //roll
+		//消零飘
+		static int pre_tick = 0;
+		int tick = HAL_GetTick();
+		if (pre_tick)
+		yaw_offset += yaw_add_one_tick * (tick - pre_tick);
+		IMU_angle[0] = 180.0f*INS_angle[0]/PI+yaw_offset;   //yaw_offset; //yaw
+		IMU_angle[1] = 180.0f*INS_angle[1]/PI+180.0f; //pitch
+		IMU_angle[2] = 180.0f*INS_angle[2]/PI+180.0f; //roll
         pre_tick = tick;
+
+        Computer_Tx();//发送陀螺仪数据给小电脑
         osDelay(1);
     }
 }
