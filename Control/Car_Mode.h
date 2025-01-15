@@ -17,7 +17,7 @@ typedef enum
 
 typedef enum
 {
-	Shoot_Single = 0x00, //单发射击
+	Shoot_Single = 0x00, //符射击
 	Shoot_Sustain = 0x01, //连发射击
 	Shoot_Plugins = 0x02 //自瞄模式
 }Car_Shoot;

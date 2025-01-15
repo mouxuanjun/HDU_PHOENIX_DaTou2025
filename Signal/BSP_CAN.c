@@ -61,21 +61,18 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
     {
       Get_M3508_Chassis_Message(rx_header.StdId,rx_data);
     }
-	}
-	else if(hcan->Instance == CAN2)
-  {
-
-    if(rx_header.StdId == 0x201)
-    {
-      Get_M2006_Motor_Message(rx_header.StdId,rx_data);
-    }else if(rx_header.StdId == 0x203 || rx_header.StdId == 0x204)
-    {
-      Get_M3508_Shoot_Message(rx_header.StdId,rx_data);
-    }else if(rx_header.StdId == 0x205)
-    {
-      Get_GM6020_Motor_Message(rx_header.StdId,rx_data);
-    }
-  }
+	}else if(hcan->Instance == CAN2)
+		{
+			if(rx_header.StdId == 0x201)
+			{
+				Get_M2006_Motor_Message(rx_header.StdId,rx_data);
+			}else if(rx_header.StdId == 0x203 || rx_header.StdId == 0x204)
+			{
+				Get_M3508_Shoot_Message(rx_header.StdId,rx_data);
+			}else if(rx_header.StdId == 0x205)
+			{
+				Get_GM6020_Motor_Message(rx_header.StdId,rx_data);
+			}
+		}
 }
-
 

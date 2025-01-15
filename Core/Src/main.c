@@ -44,7 +44,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-float INS_angle[3] = {0.0f, 0.0f, 0.0f};      //euler angle, unit rad.Å·À­½Ç µ¥Î» rad
+float INS_angle[3] = {0.0f, 0.0f, 0.0f};      //euler angle, unit rad.Å·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î» rad
 float IMU_angle[3] = {0.0f, 0.0f, 0.0f};
 Moto_M3508_t M3508_Chassis[4],M3508_Shoot[2];
 Moto_GM6020_t GM6020_Yaw,GM6020_Pitch;

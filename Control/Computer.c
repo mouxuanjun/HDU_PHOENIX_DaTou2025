@@ -17,10 +17,10 @@ extern Moto_GM6020_t GM6020_Pitch;
 void Computer_Init(void)
 {
     Computer_Tx_Message.start = 's';
-    Computer_Tx_Message.type = 0xB0;
-    Computer_Tx_Message.enemy_team_color = 0;
-    Computer_Tx_Message.mode = 0;
-    Computer_Tx_Message.rune_flag = 0;
+    Computer_Tx_Message.type = 0xB0;//调试用
+    Computer_Tx_Message.enemy_team_color = 0;//调试用
+    Computer_Tx_Message.mode = 0;//调试用
+    Computer_Tx_Message.rune_flag = 0;//调试用
     Computer_Tx_Message.end = 'e';
 }
 

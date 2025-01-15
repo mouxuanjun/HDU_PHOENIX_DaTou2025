@@ -54,6 +54,7 @@
 //#include "GimbalFun.h"
 //#include "IMU_can.h"
 //#include "vision.h"
+#include "Computer.h"
 
 #define PI 3.1415926f
 #define IMU_temp_PWM(pwm)  imu_pwm_set(pwm)                    //pwm给定
@@ -301,9 +302,9 @@ void INS_Task(void const *pvParameters)
 		IMU_angle[0] = 180.0f*INS_angle[0]/PI+yaw_offset;   //yaw_offset; //yaw
 		IMU_angle[1] = 180.0f*INS_angle[1]/PI+180.0f; //pitch
 		IMU_angle[2] = 180.0f*INS_angle[2]/PI+180.0f; //roll
-        pre_tick = tick;
+    pre_tick = tick;
 
-        Computer_Tx();//发送陀螺仪数据给小电脑
+    Computer_Tx();//发送陀螺仪数据给小电脑
         osDelay(1);
     }
 }

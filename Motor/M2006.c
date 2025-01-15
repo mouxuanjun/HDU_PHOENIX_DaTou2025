@@ -36,10 +36,10 @@ void Get_M2006_Motor_Message(uint32_t StdId,uint8_t rx_data[8])
 }
 
 /**
- * @file M3508.c
- * @brief M3508发送电流报文控制函数
+ * @file M2006.c
+ * @brief M2006发送电流报文控制函数
  * @param hcan CAN通道
- * @param M3508_Chassis 底盘电机
+ * @param M2006_Chassis 底盘电机
  * @author HWX
  * @date 2024/10/20
  */
