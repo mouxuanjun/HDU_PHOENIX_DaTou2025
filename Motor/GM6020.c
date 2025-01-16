@@ -1,6 +1,8 @@
 #include "GM6020.h"
 
 extern Moto_GM6020_t GM6020_Yaw,GM6020_Pitch;
+HAL_StatusTypeDef can_1;
+HAL_StatusTypeDef can_2;
 
 /**
  * @file GM6020.c
@@ -53,9 +55,9 @@ void Set_GM6020_Gimbal_Voltage(CAN_HandleTypeDef* hcan,Moto_GM6020_t GM6020_Yaw,
     tx_header.DLC   = 8;//×Ö½Ú³¤¶È
     CAN1_tx_data[4] = ((int16_t)GM6020_Yaw.Speed_PID.output>>8)&0xff;
     CAN1_tx_data[5] = ((int16_t)GM6020_Yaw.Speed_PID.output)&0xff;
-    HAL_CAN_AddTxMessage(&hcan1, &tx_header, CAN1_tx_data,(uint32_t*)CAN_TX_MAILBOX0);
+    can_1=HAL_CAN_AddTxMessage(&hcan1, &tx_header, CAN1_tx_data,(uint32_t*)CAN_TX_MAILBOX0);
 
     CAN2_tx_data[0] = ((int16_t)GM6020_Pitch.Speed_PID.output>>8)&0xff;
     CAN2_tx_data[1] = ((int16_t)GM6020_Pitch.Speed_PID.output)&0xff;
-    HAL_CAN_AddTxMessage(&hcan2, &tx_header, CAN2_tx_data,(uint32_t*)CAN_TX_MAILBOX0);
+    can_2=HAL_CAN_AddTxMessage(&hcan2, &tx_header, CAN2_tx_data,(uint32_t*)CAN_TX_MAILBOX0);
 }

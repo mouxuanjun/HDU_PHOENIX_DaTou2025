@@ -49,14 +49,21 @@ void Gimbal_Calculate(void)
     //Yaw
     switch(Car_Mode.Shoot)
     {
-	case Shoot_Sustain:
+		case Shoot_Sustain:
     case Shoot_Single: 
         Set_Yaw -= Gimbal_Add.Yaw;
         GM6020_Pitch.Set_Angle += Gimbal_Add.Pitch;
         break;
     case Shoot_Plugins:
-        Set_Yaw = Computer_Rx_Message.yaw;
-        GM6020_Pitch.Set_Angle = Computer_Rx_Message.pitch;
+			if(Computer_Rx_Message.find_bool == '1')
+			{
+        Set_Yaw = Computer_Rx_Message.yaw-Gimbal_Add.Yaw*0.5f;
+        GM6020_Pitch.Set_Angle = Computer_Rx_Message.pitch+Gimbal_Add.Pitch*0.5f;
+			}else
+			{
+        Set_Yaw -= Gimbal_Add.Yaw;
+        GM6020_Pitch.Set_Angle += Gimbal_Add.Pitch;
+			}
         break;
     }
     while(Set_Yaw > 360)
@@ -140,8 +147,8 @@ void Gimbal_PID_Init_All(void)
 	PID_init(&GM6020_Yaw.Angle_PID,110,0.045,800,16308,16308);//110,0.05,830
   PID_init(&(GM6020_Yaw.Speed_PID),80,0.45,150,16308,16308);//80,0.45,150
 
-    PID_init(&(GM6020_Pitch.Angle_PID),2,0,0,16308,16308);//2.5£¬0.01£¬0//4,0,0
-    PID_init(&(GM6020_Pitch.Speed_PID),35,0.25,0,16308,16308);//50£¬0.3£¬0//32,0.3,0
+    PID_init(&(GM6020_Pitch.Angle_PID),2,0,0,16308,16308);//2.5£¬0.01£¬0//4,0,0//2,0,0
+    PID_init(&(GM6020_Pitch.Speed_PID),50,0.3,50,16308,16308);//50£¬0.3£¬0//32,0.3,0//35,0.25,0
 }
 
 /**
