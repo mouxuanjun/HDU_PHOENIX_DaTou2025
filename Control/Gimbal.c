@@ -9,26 +9,32 @@ extern RC_t RC;
 extern Gimbal_Add_t Gimbal_Add;
 extern float Set_Yaw;
 extern Computer_Rx_Message_t Computer_Rx_Message;
+//×ÔÃé¹ıÂËÆ÷
+static float Yaw_ZiMiao_Filter[2]={0.01,0.99};
+static float Pitch_ZiMiao_Filter[2]={0.01,0.99};
+//´ó·û¹ıÂËÆ÷
+static float Yaw_Fu_Filter[2]={0.01,0.99};
+static float Pitch_Fu_Filter[2]={0.01,0.99};
 
-/********************è¾“å…¥æ§åˆ¶éƒ¨åˆ†********************/
+/********************ÊäÈë¿ØÖÆ²¿·Ö********************/
 void Gimbal_Remote_Control(void);
 
-/********************è§£ç®—éƒ¨åˆ†********************/
+/********************½âËã²¿·Ö********************/
 void Gimbal_Calculate(void);
 void Gimbal_Init(void);
 
-/********************è¾“å‡ºæ§åˆ¶éƒ¨åˆ†********************/
+/********************Êä³ö¿ØÖÆ²¿·Ö********************/
 void Gimbal_Move(void);
 void Gimbal_Stop(void);
 
-/********************PIDæ§åˆ¶éƒ¨åˆ†********************/
+/********************PID¿ØÖÆ²¿·Ö********************/
 void Gimbal_PID_Init_All(void);
 void Gimbal_PID_Clean_All(void);
 void Gimbal_PID_Calc(void);
 
 /**
  * @file Gimbal.c
- * @brief äº‘å°åˆå§‹åŒ–
+ * @brief ÔÆÌ¨³õÊ¼»¯
  * @author HWX
  * @date 2024/10/20
  */
@@ -40,7 +46,7 @@ void Gimbal_Init(void)
 
 /**
  * @file Gimbal.c
- * @brief è®¡ç®—ç›®æ ‡å€¼
+ * @brief ¼ÆËãÄ¿±êÖµ
  * @author HWX
  * @date 2024/10/20
  */
@@ -57,8 +63,8 @@ void Gimbal_Calculate(void)
     case Shoot_Plugins:
 			if(Computer_Rx_Message.find_bool == '1')
 			{
-        Set_Yaw = Computer_Rx_Message.yaw-Gimbal_Add.Yaw*0.5f;
-        GM6020_Pitch.Set_Angle = Computer_Rx_Message.pitch+Gimbal_Add.Pitch*0.5f;
+        Set_Yaw=Set_Yaw*Yaw_ZiMiao_Filter[0]+Computer_Rx_Message.yaw*Yaw_ZiMiao_Filter[1]-Gimbal_Add.Yaw/0.5f;
+        GM6020_Pitch.Set_Angle=GM6020_Pitch.Set_Angle*Pitch_ZiMiao_Filter[0]+Computer_Rx_Message.pitch*Yaw_ZiMiao_Filter[1]+Gimbal_Add.Pitch/0.5f;
 			}else
 			{
         Set_Yaw -= Gimbal_Add.Yaw;
@@ -79,7 +85,7 @@ void Gimbal_Calculate(void)
     
 /**
  * @file Gimbal.c
- * @brief äº‘å°å¼€å§‹è¿åŠ¨
+ * @brief ÔÆÌ¨¿ªÊ¼ÔË¶¯
  * @author HWX
  * @date 2024/10/20
  */
@@ -94,7 +100,7 @@ void Gimbal_Move(void)
 
 /**
  * @file Gimbal.c
- * @brief äº‘å°æ–­ç”µ
+ * @brief ÔÆÌ¨¶Ïµç
  * @author HWX
  * @date 2024/10/20
  */
@@ -106,7 +112,7 @@ void Gimbal_Stop(void)
 
 /**
  * @file Gimbal.c
- * @brief é¥æ§å™¨æ§åˆ¶äº‘å°
+ * @brief Ò£¿ØÆ÷¿ØÖÆÔÆÌ¨
  * @author HWX
  * @date 2024/10/20
  */
@@ -118,7 +124,7 @@ void Gimbal_Remote_Control(void)
 
 /**
  * @file Gimbal.c
- * @brief äº‘å°PIDè®¡ç®—
+ * @brief ÔÆÌ¨PID¼ÆËã
  * @author HWX
  * @date 2024/10/20
  */
@@ -136,7 +142,7 @@ void Gimbal_PID_Calc(void)
 
 /**
  * @file Gimbal.c
- * @brief äº‘å°ç”µæœºPIDåˆå§‹åŒ–
+ * @brief ÔÆÌ¨µç»úPID³õÊ¼»¯
  * @author HWX
  * @date 2024/10/20
  */
@@ -150,14 +156,14 @@ void Gimbal_PID_Init_All(void)
 	//80,0.45,150
 
     PID_init(&(GM6020_Pitch.Angle_PID),80,0.4,60,25000,25000);
-	//2.5ï¼Œ0.01ï¼Œ0//2,0,0//2,0,0//60,0,60
+	//2.5£¬0.01£¬0//2,0,0//2,0,0//60,0,60
     PID_init(&(GM6020_Pitch.Speed_PID),5,0,0,25000,25000);
-	//50ï¼Œ0.3ï¼Œ0//35,0.25,0//50,0.3,50//3,0.4,0
+	//50£¬0.3£¬0//35,0.25,0//50,0.3,50//3,0.4,0
 }
 
 /**
  * @file Gimbal.c
- * @brief äº‘å°ç”µæœºPIDæ¸…ç©º
+ * @brief ÔÆÌ¨µç»úPIDÇå¿Õ
  * @author HWX
  * @date 2024/10/20
  */
