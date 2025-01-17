@@ -31,11 +31,11 @@ void PID_init(PID_struct_t *PID,
 {
 	if(pid->ref - pid->fdb > 4096)
 	{
-		pid->fdb+=8190;
+		pid->fdb+=8192;
 	}
 	else if(pid->ref - pid->fdb < -4096)
 	{
-		pid->fdb-=8190;
+		pid->fdb-=8192;
 	}
 }
 
