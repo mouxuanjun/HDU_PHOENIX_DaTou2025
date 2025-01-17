@@ -10,25 +10,25 @@ extern Gimbal_Add_t Gimbal_Add;
 extern float Set_Yaw;
 extern Computer_Rx_Message_t Computer_Rx_Message;
 
-/********************ÊäÈë¿ØÖÆ²¿·Ö********************/
+/********************è¾“å…¥æ§åˆ¶éƒ¨åˆ†********************/
 void Gimbal_Remote_Control(void);
 
-/********************½âËã²¿·Ö********************/
+/********************è§£ç®—éƒ¨åˆ†********************/
 void Gimbal_Calculate(void);
 void Gimbal_Init(void);
 
-/********************Êä³ö¿ØÖÆ²¿·Ö********************/
+/********************è¾“å‡ºæ§åˆ¶éƒ¨åˆ†********************/
 void Gimbal_Move(void);
 void Gimbal_Stop(void);
 
-/********************PID¿ØÖÆ²¿·Ö********************/
+/********************PIDæ§åˆ¶éƒ¨åˆ†********************/
 void Gimbal_PID_Init_All(void);
 void Gimbal_PID_Clean_All(void);
 void Gimbal_PID_Calc(void);
 
 /**
  * @file Gimbal.c
- * @brief ÔÆÌ¨³õÊ¼»¯
+ * @brief äº‘å°åˆå§‹åŒ–
  * @author HWX
  * @date 2024/10/20
  */
@@ -40,7 +40,7 @@ void Gimbal_Init(void)
 
 /**
  * @file Gimbal.c
- * @brief ¼ÆËãÄ¿±êÖµ
+ * @brief è®¡ç®—ç›®æ ‡å€¼
  * @author HWX
  * @date 2024/10/20
  */
@@ -79,7 +79,7 @@ void Gimbal_Calculate(void)
     
 /**
  * @file Gimbal.c
- * @brief ÔÆÌ¨¿ªÊ¼ÔË¶¯
+ * @brief äº‘å°å¼€å§‹è¿åŠ¨
  * @author HWX
  * @date 2024/10/20
  */
@@ -94,7 +94,7 @@ void Gimbal_Move(void)
 
 /**
  * @file Gimbal.c
- * @brief ÔÆÌ¨¶Ïµç
+ * @brief äº‘å°æ–­ç”µ
  * @author HWX
  * @date 2024/10/20
  */
@@ -106,7 +106,7 @@ void Gimbal_Stop(void)
 
 /**
  * @file Gimbal.c
- * @brief Ò£¿ØÆ÷¿ØÖÆÔÆÌ¨
+ * @brief é¥æ§å™¨æ§åˆ¶äº‘å°
  * @author HWX
  * @date 2024/10/20
  */
@@ -118,7 +118,7 @@ void Gimbal_Remote_Control(void)
 
 /**
  * @file Gimbal.c
- * @brief ÔÆÌ¨PID¼ÆËã
+ * @brief äº‘å°PIDè®¡ç®—
  * @author HWX
  * @date 2024/10/20
  */
@@ -136,7 +136,7 @@ void Gimbal_PID_Calc(void)
 
 /**
  * @file Gimbal.c
- * @brief ÔÆÌ¨µç»úPID³õÊ¼»¯
+ * @brief äº‘å°ç”µæœºPIDåˆå§‹åŒ–
  * @author HWX
  * @date 2024/10/20
  */
@@ -144,16 +144,20 @@ void Gimbal_PID_Init_All(void)
 {
 	Gimbal_Init();
 
-	PID_init(&GM6020_Yaw.Angle_PID,110,0.045,800,16308,16308);//110,0.05,830
-  PID_init(&(GM6020_Yaw.Speed_PID),80,0.45,150,16308,16308);//80,0.45,150
+	PID_init(&GM6020_Yaw.Angle_PID,110,0.045,800,25000,25000);
+	//110,0.05,830
+  PID_init(&(GM6020_Yaw.Speed_PID),80,0.45,150,25000,25000);
+	//80,0.45,150
 
-    PID_init(&(GM6020_Pitch.Angle_PID),2,0,0,16308,16308);//2.5£¬0.01£¬0//4,0,0//2,0,0
-    PID_init(&(GM6020_Pitch.Speed_PID),50,0.3,50,16308,16308);//50£¬0.3£¬0//32,0.3,0//35,0.25,0
+    PID_init(&(GM6020_Pitch.Angle_PID),80,0.4,60,25000,25000);
+	//2.5ï¼Œ0.01ï¼Œ0//2,0,0//2,0,0//60,0,60
+    PID_init(&(GM6020_Pitch.Speed_PID),5,0,0,25000,25000);
+	//50ï¼Œ0.3ï¼Œ0//35,0.25,0//50,0.3,50//3,0.4,0
 }
 
 /**
  * @file Gimbal.c
- * @brief ÔÆÌ¨µç»úPIDÇå¿Õ
+ * @brief äº‘å°ç”µæœºPIDæ¸…ç©º
  * @author HWX
  * @date 2024/10/20
  */

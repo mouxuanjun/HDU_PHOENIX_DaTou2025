@@ -14,7 +14,7 @@ typedef struct
 {
 char start;                     //0 帧头 's’
 char type;                      //1 消息类型 0xA0
-char find_bool;                 //2 是否追踪
+char find_bool;                 //2 是否
 float yaw;                      //3-6 偏航角
 float pitch;                    //7-10 俯仰角
 float distance;                 //11-14 距离
