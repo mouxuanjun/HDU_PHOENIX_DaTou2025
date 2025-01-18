@@ -47,12 +47,10 @@ void Computer_Rx(void)
 		data = ((Rx_data[7])|(Rx_data[8]<<8)|(Rx_data[9]<<16)|(Rx_data[10]<<24));
 		Computer_Rx_Message.pitch = *(float*)&data;
 
-		data = ((Rx_data[11])|(Rx_data[12]<<8)|(Rx_data[13]<<16)|(Rx_data[14]<<24));
-		Computer_Rx_Message.distance = *(float*)&data;
-
 		Computer_Rx_Message.end = Rx_data[31];
-
-    Computer_Rx_Message.pitch = Gimbal_Pitch_ZERO+Computer_Rx_Message.pitch*22.755556f;//把角度值转化成编码器的值
+		
+		Computer_Rx_Message.yaw *= 57.32484f;
+    Computer_Rx_Message.pitch = Gimbal_Pitch_ZERO+Computer_Rx_Message.pitch*1304.4586f;//把弧度值转化成编码器的值
 	}
 }
 
