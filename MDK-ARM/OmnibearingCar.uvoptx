@@ -178,6 +178,11 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
+          <Key>DLGUARM</Key>
+          <Name>/</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
           <Key>ARMRTXEVENTFLAGS</Key>
           <Name>-L70 -Z18 -C0 -M0 -T1</Name>
         </SetRegEntry>
@@ -327,57 +332,52 @@
         <Ww>
           <count>23</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\OmnibearingCar\../Core/Src/main.c\GM6020_Yaw.Speed_PID.kp</ItemText>
+          <ItemText>yaw_add_one_tick</ItemText>
         </Ww>
         <Ww>
           <count>24</count>
           <WinNumber>1</WinNumber>
-          <ItemText>yaw_add_one_tick</ItemText>
+          <ItemText>can_1</ItemText>
         </Ww>
         <Ww>
           <count>25</count>
           <WinNumber>1</WinNumber>
-          <ItemText>yaw_add_one_tick</ItemText>
+          <ItemText>can_2</ItemText>
         </Ww>
         <Ww>
           <count>26</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\OmnibearingCar\../Core/Src/main.c\GM6020_Pitch.Angle_PID</ItemText>
+          <ItemText>Yaw_ZiMiao_Filter[2]</ItemText>
         </Ww>
         <Ww>
           <count>27</count>
           <WinNumber>1</WinNumber>
-          <ItemText>hcan2,0x0A</ItemText>
+          <ItemText>Pitch_ZiMiao_Filter</ItemText>
         </Ww>
         <Ww>
           <count>28</count>
           <WinNumber>1</WinNumber>
-          <ItemText>can_1</ItemText>
+          <ItemText>Gimbal_Add</ItemText>
         </Ww>
         <Ww>
           <count>29</count>
           <WinNumber>1</WinNumber>
-          <ItemText>can_2</ItemText>
+          <ItemText>Car_Mode.Shoot</ItemText>
         </Ww>
         <Ww>
           <count>30</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Yaw_ZiMiao_Filter[2]</ItemText>
+          <ItemText>Task_Time,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>31</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Pitch_ZiMiao_Filter</ItemText>
+          <ItemText>Car_Mode</ItemText>
         </Ww>
         <Ww>
           <count>32</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Gimbal_Add</ItemText>
-        </Ww>
-        <Ww>
-          <count>33</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>Car_Mode.Shoot</ItemText>
+          <ItemText>\\OmnibearingCar\../Core/Src/main.c\GM6020_Pitch.Speed_PID.kp</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

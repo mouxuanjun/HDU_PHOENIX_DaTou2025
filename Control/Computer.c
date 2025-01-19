@@ -7,6 +7,8 @@ extern Computer_Rx_Message_t Computer_Rx_Message;
 extern Computer_Tx_Message_t Computer_Tx_Message;
 extern float IMU_angle[3];
 extern Moto_GM6020_t GM6020_Pitch;
+uint16_t Task_Time=0;
+float Task_Pitch=0.0f,Task_Yaw=0.0f;
 
 /**
  * @file Computer.c
@@ -34,6 +36,19 @@ void Computer_Rx(void)
 {
   uint32_t data;
 	USBD_Interface_fops_FS.Receive(Rx_data,&len);
+
+ /***************************测试代码*********************************/
+    if(Task_Time>=3000)
+    {
+        Task_Time=0;
+        if(Task_Pitch==0){Task_Pitch=0.08722f;}//0.17444f
+        if(Task_Pitch!=0.0f){Task_Pitch = -Task_Pitch;}
+    }
+    Computer_Rx_Message.pitch = Gimbal_Pitch_ZERO+Task_Pitch*1304.4586f;//把弧度值转化成编码器的值
+		Computer_Rx_Message.yaw *= 57.32484f;
+    Task_Time++;
+
+/******************************测试完************************************/
 
 	if(Rx_data[0] == 's'&&Rx_data[31] == 'e')
 	{
