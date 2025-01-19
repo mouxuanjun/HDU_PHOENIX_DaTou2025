@@ -41,11 +41,15 @@ void Computer_Rx(void)
     if(Task_Time>=3000)
     {
         Task_Time=0;
-        if(Task_Pitch==0){Task_Pitch=0.08722f;}//0.17444f
-        if(Task_Pitch!=0.0f){Task_Pitch = -Task_Pitch;}
+//        if(Task_Pitch==0){Task_Pitch=0.08722f;}//0.17444f
+//        if(Task_Pitch!=0.0f){Task_Pitch = -Task_Pitch;}
+        Task_Yaw += 0.52333f;
+			if(Task_Yaw>3.14f)
+				Task_Yaw -=6.28f;
+			
     }
-    Computer_Rx_Message.pitch = Gimbal_Pitch_ZERO+Task_Pitch*1304.4586f;//把弧度值转化成编码器的值
-		Computer_Rx_Message.yaw *= 57.32484f;
+//    Computer_Rx_Message.pitch = Gimbal_Pitch_ZERO+Task_Pitch*1304.4586f;//把弧度值转化成编码器的值
+		Computer_Rx_Message.yaw = Task_Yaw*57.32484f;
     Task_Time++;
 
 /******************************测试完************************************/

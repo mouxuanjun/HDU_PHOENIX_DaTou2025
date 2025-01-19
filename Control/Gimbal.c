@@ -10,8 +10,8 @@ extern Gimbal_Add_t Gimbal_Add;
 extern float Set_Yaw;
 extern Computer_Rx_Message_t Computer_Rx_Message;
 //×Ôß÷¹ýÂËÆ÷
-float Yaw_ZiMiao_Filter[2]={0.98,0.02};
-float Pitch_ZiMiao_Filter[2]={0.99,0.01};
+float Yaw_ZiMiao_Filter[2]={0.01,0.99};
+float Pitch_ZiMiao_Filter[2]={0.01,0.99};
 //´ó·û¹ýÂËÆ÷
 //static float Yaw_Fu_Filter[2]={0.01,0.99};
 //static float Pitch_Fu_Filter[2]={0.01,0.99};
@@ -67,14 +67,14 @@ void Gimbal_Calculate(void)
 
 /***********************²âÊÔ´úÂë**************************/
 
-        GM6020_Pitch.Set_Angle=GM6020_Pitch.Set_Angle*Pitch_ZiMiao_Filter[0]+Computer_Rx_Message.pitch*Pitch_ZiMiao_Filter[1];
-        Set_Yaw=Set_Yaw*Yaw_ZiMiao_Filter[0]+Computer_Rx_Message.yaw*Yaw_ZiMiao_Filter[1];
+        GM6020_Pitch.Set_Angle=GM6020_Pitch.Set_Angle*Pitch_ZiMiao_Filter[1]+Computer_Rx_Message.pitch*Pitch_ZiMiao_Filter[0];
+        Set_Yaw=Set_Yaw*Yaw_ZiMiao_Filter[1]+Computer_Rx_Message.yaw*Yaw_ZiMiao_Filter[0];
 
 /**************************²âÊÔÍê******************************/
 		if(Computer_Rx_Message.find_bool == '1')
 		{
-            Set_Yaw=Set_Yaw*Yaw_ZiMiao_Filter[0]+Computer_Rx_Message.yaw*Yaw_ZiMiao_Filter[1];
-            GM6020_Pitch.Set_Angle=GM6020_Pitch.Set_Angle*Pitch_ZiMiao_Filter[0]+Computer_Rx_Message.pitch*Pitch_ZiMiao_Filter[1];
+            Set_Yaw=Computer_Rx_Message.yaw*Yaw_ZiMiao_Filter[0]+Set_Yaw*Yaw_ZiMiao_Filter[1];
+            GM6020_Pitch.Set_Angle=Computer_Rx_Message.pitch*Pitch_ZiMiao_Filter[0]+GM6020_Pitch.Set_Angle*Pitch_ZiMiao_Filter[1];
 		}else
 		{
             Set_Yaw -= Gimbal_Add.Yaw;
@@ -83,11 +83,11 @@ void Gimbal_Calculate(void)
         break;
 
     }
-    while(Set_Yaw > 360)
+    while(Set_Yaw > 180)
     {
         Set_Yaw -= 360;
     }
-    while(Set_Yaw < 0)
+    while(Set_Yaw < -180)
     {
         Set_Yaw += 360;
     }
@@ -146,9 +146,10 @@ void Gimbal_PID_Calc(void)
     GM6020_Yaw.Set_Speed = GM6020_Yaw.Angle_PID.output;
     PID_Calc_Speed(&(GM6020_Yaw.Speed_PID),GM6020_Yaw.Set_Speed,GM6020_Yaw.rotor_speed);
     //Pitch
-    PID_Calc_Angle(&(GM6020_Pitch.Angle_PID),GM6020_Pitch.Set_Angle,GM6020_Pitch.rotor_angle);
-    GM6020_Pitch.Set_Speed = GM6020_Pitch.Angle_PID.output;
+//    PID_Calc_Angle(&(GM6020_Pitch.Angle_PID),GM6020_Pitch.Set_Angle,GM6020_Pitch.rotor_angle);
+//    GM6020_Pitch.Set_Speed = GM6020_Pitch.Angle_PID.output;
     PID_Calc_Speed(&(GM6020_Pitch.Speed_PID),GM6020_Pitch.Set_Speed,GM6020_Pitch.rotor_speed);
+		if(GM6020_Pitch.rotor_angle<5600){GM6020_Pitch.Speed_PID.output=0;}
 }
 
 /**
@@ -161,19 +162,15 @@ void Gimbal_PID_Init_All(void)
 {
 	Gimbal_Init();
 
-	PID_init(&GM6020_Yaw.Angle_PID,110,0.045,800,25000,25000);
-	//110,0.05,830
-  PID_init(&(GM6020_Yaw.Speed_PID),80,0.45,150,25000,25000);
-	//80,0.45,150
-
-    PID_init(&(GM6020_Pitch.Angle_PID),200,0,400,25000,25000);
-	//200,0,75//200,0,200
-	//80,0.4,60//60,0,90
-	//2.5£¬0.01£¬0//2,0,0//2,0,0//60,0,60
-    PID_init(&(GM6020_Pitch.Speed_PID),1.2,0,0,25000,25000);
-	//2.75,0,0//1,0,0
-	//5,0,0//3,0,0
-	//50£¬0.3£¬0//35,0.25,0//50,0.3,50//3,0.4,0
+	PID_init(&GM6020_Yaw.Angle_PID,50,0,2000,25000,25000);//60,0,2500//50,0,2000
+	//110,0.05,830//110,0.045,800
+  PID_init(&(GM6020_Yaw.Speed_PID),195,1.3,0,25000,25000);//200,1.3.0//195,1.3,0
+	//80,0.45,150//80,0.45,150
+	
+    PID_init(&(GM6020_Pitch.Angle_PID),0,0,0,25000,25000);
+	//200,0,75//200,0,200//80,0.4,60//60,0,90//2.5£¬0.01£¬0//2,0,0//2,0,0//60,0,60//200,0,400
+    PID_init(&(GM6020_Pitch.Speed_PID),120,0.5,0,25000,25000);
+	//2.75,0,0//1,0,0//5,0,0//3,0,0//50£¬0.3£¬0//35,0.25,0//50,0.3,50//3,0.4,0//1.2,0,0
 }
 
 /**

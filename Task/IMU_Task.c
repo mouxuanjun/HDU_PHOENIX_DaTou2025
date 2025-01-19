@@ -303,6 +303,16 @@ void INS_Task(void const *pvParameters)
 		IMU_angle[1] = 180.0f*INS_angle[1]/PI+180.0f; //pitch
 		IMU_angle[2] = 180.0f*INS_angle[2]/PI+180.0f; //roll
     pre_tick = tick;
+		
+    if(IMU_angle[0] > 180)
+    {
+        IMU_angle[0] -= 360;
+    }
+    if(IMU_angle[0] < -180)
+    {
+        IMU_angle[0] += 360;
+    }
+
 
     Computer_Tx();//发送陀螺仪数据给小电脑
         osDelay(1);
