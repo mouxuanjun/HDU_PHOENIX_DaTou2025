@@ -300,8 +300,8 @@ void INS_Task(void const *pvParameters)
 		if (pre_tick)
 		yaw_offset += yaw_add_one_tick * (tick - pre_tick);
 		IMU_angle[0] = 180.0f*INS_angle[0]/PI+yaw_offset;   //yaw_offset; //yaw
-		IMU_angle[1] = 180.0f*INS_angle[1]/PI+180.0f; //pitch
-		IMU_angle[2] = 180.0f*INS_angle[2]/PI+180.0f; //roll
+		IMU_angle[1] = 180.0f*INS_angle[1]/PI; //pitch
+		IMU_angle[2] = 180.0f*INS_angle[2]/PI; //roll
     pre_tick = tick;
 		
     if(IMU_angle[0] > 180)

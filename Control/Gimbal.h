@@ -8,10 +8,9 @@
 #include "Car_Mode.h"
 #include "Computer.h"
 
-#define Gimbal_Pitch_ZERO 6720//PitchÎªÁãÊ±µÄ±àÂë
-#define Gimbal_Pitch_MAX 7260
-#define Gimbal_Pitch_MIN 5555
-#define Gimbal_Pithch_Set 120
+#define Gimbal_Pitch_MAX 46.0f
+#define Gimbal_Pitch_MIN -27.0f
+#define Gimbal_Pithch_Set 2000
 #define Gimbal_Yaw_Set 2000  //Last:50
 
 typedef struct

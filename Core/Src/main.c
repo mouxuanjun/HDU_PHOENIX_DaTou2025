@@ -50,7 +50,7 @@ Moto_M3508_t M3508_Chassis[4],M3508_Shoot[2];
 Moto_GM6020_t GM6020_Yaw,GM6020_Pitch;
 Moto_M2006_t M2006_Rammer;
 RC_t RC;
-float Set_Yaw;
+float Set_Yaw,Set_Pitch;
 uint8_t RC_Data[18];
 Car_Mode_t Car_Mode;
 Car_Action Last_Action;

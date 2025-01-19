@@ -6,7 +6,6 @@ uint32_t len;
 extern Computer_Rx_Message_t Computer_Rx_Message;
 extern Computer_Tx_Message_t Computer_Tx_Message;
 extern float IMU_angle[3];
-extern Moto_GM6020_t GM6020_Pitch;
 uint16_t Task_Time=0;
 float Task_Pitch=0.0f,Task_Yaw=0.0f;
 
@@ -37,20 +36,20 @@ void Computer_Rx(void)
   uint32_t data;
 	USBD_Interface_fops_FS.Receive(Rx_data,&len);
 
- /***************************测试代码*********************************/
-    if(Task_Time>=3000)
-    {
-        Task_Time=0;
+/***************************测试代码*********************************/
+//    if(Task_Time>=3000)
+//    {
+//        Task_Time=0;
 //        if(Task_Pitch==0){Task_Pitch=0.08722f;}//0.17444f
 //        if(Task_Pitch!=0.0f){Task_Pitch = -Task_Pitch;}
-        Task_Yaw += 0.52333f;
-			if(Task_Yaw>3.14f)
-				Task_Yaw -=6.28f;
-			
-    }
-//    Computer_Rx_Message.pitch = Gimbal_Pitch_ZERO+Task_Pitch*1304.4586f;//把弧度值转化成编码器的值
-		Computer_Rx_Message.yaw = Task_Yaw*57.32484f;
-    Task_Time++;
+//        Task_Yaw += 0.52333f;
+//			if(Task_Yaw>3.14f)
+//				Task_Yaw -=6.28f;
+//			
+//    }
+//    Computer_Rx_Message.pitch = Task_Pitch*57.32484f;
+//		Computer_Rx_Message.yaw = Task_Yaw*57.32484f;
+//    Task_Time++;
 
 /******************************测试完************************************/
 
@@ -69,7 +68,7 @@ void Computer_Rx(void)
 		Computer_Rx_Message.end = Rx_data[31];
 		
 		Computer_Rx_Message.yaw *= 57.32484f;
-    Computer_Rx_Message.pitch = Gimbal_Pitch_ZERO+Computer_Rx_Message.pitch*1304.4586f;//把弧度值转化成编码器的值
+    Computer_Rx_Message.pitch *=57.32484f;
 	}
 }
 
@@ -82,7 +81,7 @@ void Computer_Rx(void)
 void Computer_Tx(void)
 {
 		Computer_Tx_Message.yaw = IMU_angle[0]*0.0174444f;
-    Computer_Tx_Message.pitch = (GM6020_Pitch.rotor_angle-Gimbal_Pitch_ZERO)*0.0007660156f;//把编码器的值转换成Pitch角度值
+    Computer_Tx_Message.pitch = IMU_angle[1]*0.0174444f;//把编码器的值转换成Pitch角度值
 		
     Tx_data[0] = *(char*)&Computer_Tx_Message.start;
 
