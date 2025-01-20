@@ -8,6 +8,7 @@ extern Computer_Tx_Message_t Computer_Tx_Message;
 extern float IMU_angle[3];
 uint16_t Task_Time=0;
 float Task_Pitch=0.0f,Task_Yaw=0.0f;
+uint8_t Message_Count=1;
 
 /**
  * @file Computer.c
@@ -62,13 +63,17 @@ void Computer_Rx(void)
 
 		data = ((Rx_data[3])|(Rx_data[4]<<8)|(Rx_data[5]<<16)|(Rx_data[6]<<24));
 		Computer_Rx_Message.yaw = *(float*)&data;
-		data = ((Rx_data[7])|(Rx_data[8]<<8)|(Rx_data[9]<<16)|(Rx_data[10]<<24));
-		Computer_Rx_Message.pitch = *(float*)&data;
+//		if(Message_Count>=10)
+//		{	
+			Message_Count=1;
+			data = ((Rx_data[7])|(Rx_data[8]<<8)|(Rx_data[9]<<16)|(Rx_data[10]<<24));
+			Computer_Rx_Message.pitch = *(float*)&data;
+//		}else Message_Count++;
 
 		Computer_Rx_Message.end = Rx_data[31];
 		
 		Computer_Rx_Message.yaw *= 57.32484f;
-    Computer_Rx_Message.pitch *=57.32484f;
+    Computer_Rx_Message.pitch *= -57.32484f;
 	}
 }
 
@@ -81,7 +86,7 @@ void Computer_Rx(void)
 void Computer_Tx(void)
 {
 		Computer_Tx_Message.yaw = IMU_angle[0]*0.0174444f;
-    Computer_Tx_Message.pitch = IMU_angle[1]*0.0174444f;//把编码器的值转换成Pitch角度值
+    Computer_Tx_Message.pitch = IMU_angle[2]*-0.0174444f;
 		
     Tx_data[0] = *(char*)&Computer_Tx_Message.start;
 
