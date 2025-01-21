@@ -44,14 +44,13 @@ void Computer_Rx(void)
 //        if(Task_Pitch==0){Task_Pitch=0.08722f;}//0.17444f
 //        if(Task_Pitch!=0.0f){Task_Pitch = -Task_Pitch;}
 //        Task_Yaw += 0.52333f;
-//			if(Task_Yaw>3.14f)
-//				Task_Yaw -=6.28f;
+//				if(Task_Yaw>3.14f)
+//					Task_Yaw -=6.28f;
 //			
 //    }
 //    Computer_Rx_Message.pitch = Task_Pitch*57.32484f;
 //		Computer_Rx_Message.yaw = Task_Yaw*57.32484f;
 //    Task_Time++;
-
 /******************************²âÊÔÍê************************************/
 
 	if(Rx_data[0] == 's'&&Rx_data[31] == 'e')
@@ -63,12 +62,8 @@ void Computer_Rx(void)
 
 		data = ((Rx_data[3])|(Rx_data[4]<<8)|(Rx_data[5]<<16)|(Rx_data[6]<<24));
 		Computer_Rx_Message.yaw = *(float*)&data;
-//		if(Message_Count>=10)
-//		{	
-			Message_Count=1;
-			data = ((Rx_data[7])|(Rx_data[8]<<8)|(Rx_data[9]<<16)|(Rx_data[10]<<24));
-			Computer_Rx_Message.pitch = *(float*)&data;
-//		}else Message_Count++;
+		data = ((Rx_data[7])|(Rx_data[8]<<8)|(Rx_data[9]<<16)|(Rx_data[10]<<24));
+		Computer_Rx_Message.pitch = *(float*)&data;
 
 		Computer_Rx_Message.end = Rx_data[31];
 		

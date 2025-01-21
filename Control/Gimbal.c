@@ -67,14 +67,14 @@ void Gimbal_Calculate(void)
 
 /***********************≤‚ ‘¥˙¬Î**************************/
 
-        Set_Pitch=Set_Pitch*Pitch_ZiMiao_Filter[1]+Computer_Rx_Message.pitch*Pitch_ZiMiao_Filter[0];
-        Set_Yaw=Set_Yaw*Yaw_ZiMiao_Filter[1]+Computer_Rx_Message.yaw*Yaw_ZiMiao_Filter[0];
+//        Set_Pitch=Set_Pitch*Pitch_ZiMiao_Filter[1]+Computer_Rx_Message.pitch*Pitch_ZiMiao_Filter[0];
+//        Set_Yaw=Set_Yaw*Yaw_ZiMiao_Filter[1]+Computer_Rx_Message.yaw*Yaw_ZiMiao_Filter[0];
 
 /**************************≤‚ ‘ÕÍ******************************/
 		if(Computer_Rx_Message.find_bool == '1')
 		{
             Set_Yaw=Computer_Rx_Message.yaw*Yaw_ZiMiao_Filter[0]+Set_Yaw*Yaw_ZiMiao_Filter[1];
-            GM6020_Pitch.Set_Angle=Computer_Rx_Message.pitch*Pitch_ZiMiao_Filter[0]+GM6020_Pitch.Set_Angle*Pitch_ZiMiao_Filter[1];
+            Set_Pitch=Computer_Rx_Message.pitch*Pitch_ZiMiao_Filter[0]+Set_Pitch*Pitch_ZiMiao_Filter[1];
 		}else
 		{
             Set_Yaw -= Gimbal_Add.Yaw;
@@ -98,9 +98,8 @@ void Gimbal_Calculate(void)
     while(Set_Pitch < Gimbal_Pitch_MIN)
     {
         Set_Pitch = Gimbal_Pitch_MIN;
-    }    
+    }
 }
-
 /**
  * @file Gimbal.c
  * @brief ‘∆Ã®ø™ º‘À∂Ø
@@ -170,10 +169,10 @@ void Gimbal_PID_Init_All(void)
 
 	PID_init(&GM6020_Yaw.Angle_PID,50,0,2000,25000,25000);//60,0,2500//50,0,2000
 	//110,0.05,830//110,0.045,800
-    PID_init(&(GM6020_Yaw.Speed_PID),195,1.3,0,25000,25000);//200,1.3.0//195,1.3,0
+    PID_init(&(GM6020_Yaw.Speed_PID),142,2,0,25000,25000);//200,1.3.0//195,1.3,0
 	//80,0.45,150//80,0.45,150
 	
-    PID_init(&(GM6020_Pitch.Angle_PID),35,0,1000,25000,25000);
+    PID_init(&(GM6020_Pitch.Angle_PID),30,0,1000,25000,25000);//35,0,1000
 	//±‡¬Î∆˜£ª//200,0,75//200,0,200//80,0.4,60//60,0,90//2.5£¨0.01£¨0//2,0,0//2,0,0//60,0,60//200,0,400//30,0,600
     PID_init(&(GM6020_Pitch.Speed_PID),150,2,0,25000,25000);//120,1,0
 	//±‡¬Î∆˜£∫//2.75,0,0//1,0,0//5,0,0//3,0,0//50£¨0.3£¨0//35,0.25,0//50,0.3,50//3,0.4,0//1.2,0,0//120,1,0
@@ -189,6 +188,6 @@ void Gimbal_PID_Clean_All(void)
 {
     PID_init(&(GM6020_Pitch.Angle_PID),0,0,0,0,0);
     PID_init(&(GM6020_Pitch.Speed_PID),0,0,0,0,0);
-    PID_init(&GM6020_Yaw.Angle_PID,0,0,0,0,0);
+    PID_init(&(GM6020_Yaw.Angle_PID),0,0,0,0,0);
     PID_init(&(GM6020_Yaw.Speed_PID),0,0,0,0,0);
 }
