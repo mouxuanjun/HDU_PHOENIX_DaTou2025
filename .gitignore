@@ -12,3 +12,6 @@
 #VSCode编辑器忽略项
 /**/.vscode
 /**/workspace.code-workspace
+
+#J-Scope波形数据忽略项
+/**/J-Scope_Data/*

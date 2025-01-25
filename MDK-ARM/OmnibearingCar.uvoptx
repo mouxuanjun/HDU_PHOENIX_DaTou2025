@@ -179,7 +179,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>/</Name>
+          <Name>:</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -378,6 +378,26 @@
           <count>32</count>
           <WinNumber>1</WinNumber>
           <ItemText>\\OmnibearingCar\../Core/Src/main.c\GM6020_Pitch.Speed_PID.kp</ItemText>
+        </Ww>
+        <Ww>
+          <count>33</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>\\OmnibearingCar\../Core/Src/main.c\GM6020_Yaw.Speed_PID.ki</ItemText>
+        </Ww>
+        <Ww>
+          <count>34</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>\\OmnibearingCar\../Core/Src/main.c\IMU_angle[1]</ItemText>
+        </Ww>
+        <Ww>
+          <count>35</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>\\OmnibearingCar\../Core/Src/main.c\IMU_angle[2]</ItemText>
+        </Ww>
+        <Ww>
+          <count>36</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>hcan2</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
