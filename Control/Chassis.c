@@ -17,6 +17,7 @@ float Find_Angle(void);
 
 /********************输入控制部分********************/
 void Chassis_Remote_Control(void);
+void Chassis_Mode_Choose(void);
 
 /********************PID部分********************/
 void Chassis_PID_Init_All(void);
@@ -194,19 +195,17 @@ void Chassis_PID_Clean_All(void)
 
 /**
   * @brief  键盘选择底盘模式
-  * @param  void
-  * @retval void
-  * @attention 模式选择,进入某模式后记得写退出到普通模式的判断
-  * 无按键按下会一直处于自动闪避模式,除了模式切换外的按键按下则处于模式切换选择模式
+  * @author HWX
+  * @attention 模式选择,进入小陀螺模式后退出到普通模式
+  * @date 2025/1/26
   */
-Car_Action Last_Action = NORMAL;
-void Chassis_Mode_Choose()
+Car_Action Last_Action;
+void Chassis_Mode_Choose(void)
 {
 //////////////////F键选择底盘跟随云台/////////////
     if(IF_KEY_PRESSED_F)
     {
         Car_Mode.Action=FOLLOW;
-		Last_Action=FOLLOW;
     }else
 /////////////////Shift键选择小陀螺/////////////////////
     if(IF_KEY_PRESSED_SHIFT)
@@ -216,10 +215,10 @@ void Chassis_Mode_Choose()
     if(IF_KEY_PRESSED_R)
     {
 		Car_Mode.Action=NORMAL;
-        Last_Action=NORMAL;
     }else
     if(!IF_KEY_PRESSED_SHIFT)
     {
-		Car_Mode.Action= Last_Action;
+        if(Car_Mode.Action==GYROSCOPE)
+            Car_Mode.Action= NORMAL;
     }
 }

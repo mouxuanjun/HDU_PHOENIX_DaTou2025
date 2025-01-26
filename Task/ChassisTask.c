@@ -16,7 +16,7 @@ void ChassisTask(void const * argument)
             Chassis_Move();
             break;
         case Car_Keyboard:
-            
+            Chassis_Mode_Choose();
             break;
         case Car_Stop:
             Chassis_Stop();

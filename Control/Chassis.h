@@ -32,5 +32,6 @@ void Chassis_PID_Clean_All(void);
 void Chassis_Stop(void);
 void Chassis_PID_Calc(void);
 float Find_Angle(void);
+void Chassis_Mode_Choose(void);
 
 #endif
