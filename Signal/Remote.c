@@ -45,6 +45,11 @@ void RC_Processing_Data(void)
 	RC.key = ((int16_t)RC_Data[14]) | ((int16_t)RC_Data[15] << 8);
 	//wheel
 	RC.wheel = ((int16_t)RC_Data[16] | (int16_t)RC_Data[17] << 8) - 1024;
+	//接收到错误的消息，全部消息置0
+	if ((abs(RC.ch1) > 660)||(abs(RC.ch2) > 660)||(abs(RC.ch3) > 660)||(abs(RC.ch0 > 660)))
+	{
+			memset(&RC,0,sizeof(RC));
+	}
 }
 
 void Car_Init(void)

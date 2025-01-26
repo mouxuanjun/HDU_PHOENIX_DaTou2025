@@ -109,7 +109,6 @@ float Find_Angle(void)
 	{
 		Zero-=8190;
 	}
-	
     err = Angle - Zero;
 	float temp1 = err * 2 * 3.1415926f / 8192;
     if(temp1 > 3.141593f)
@@ -142,7 +141,7 @@ void Chassis_Remote_Control(void)
     case FOLLOW:
         Temp_Chassis_Speed.vx = (float)RC.ch3/250;
         Temp_Chassis_Speed.vy = (float)RC.ch2/250;
-		PID_Calc_Angle(&Follow_PID,0.0f,err);
+				PID_Calc_Angle(&Follow_PID,0.0f,err);
         Temp_Chassis_Speed.vw = Follow_PID.output/1000;
     default:
         break;
