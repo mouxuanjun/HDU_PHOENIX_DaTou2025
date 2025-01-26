@@ -191,3 +191,35 @@ void Chassis_PID_Clean_All(void)
     PID_init(&(M3508_Chassis[2].PID),0,0,0,0,0);
     PID_init(&(M3508_Chassis[3].PID),0,0,0,0,0);
 }
+
+/**
+  * @brief  键盘选择底盘模式
+  * @param  void
+  * @retval void
+  * @attention 模式选择,进入某模式后记得写退出到普通模式的判断
+  * 无按键按下会一直处于自动闪避模式,除了模式切换外的按键按下则处于模式切换选择模式
+  */
+Car_Action Last_Action = NORMAL;
+void Chassis_Mode_Choose()
+{
+//////////////////F键选择底盘跟随云台/////////////
+    if(IF_KEY_PRESSED_F)
+    {
+        Car_Mode.Action=FOLLOW;
+		Last_Action=FOLLOW;
+    }else
+/////////////////Shift键选择小陀螺/////////////////////
+    if(IF_KEY_PRESSED_SHIFT)
+    {
+        Car_Mode.Action = GYROSCOPE;
+    }else
+    if(IF_KEY_PRESSED_R)
+    {
+		Car_Mode.Action=NORMAL;
+        Last_Action=NORMAL;
+    }else
+    if(!IF_KEY_PRESSED_SHIFT)
+    {
+		Car_Mode.Action= Last_Action;
+    }
+}

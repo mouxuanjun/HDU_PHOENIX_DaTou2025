@@ -36,13 +36,13 @@ void RC_Processing_Data(void)
 	RC.s1 = ((RC_Data[5] >> 4) & 0x000C) >> 2;
 	RC.s2 = ((RC_Data[5] >> 4) & 0x0003);
 	//鼠标
-	RC.x = ((int16_t)RC_Data[6]) | ((int16_t)RC_Data[7] << 8);
-	RC.y = ((int16_t)RC_Data[8]) | ((int16_t)RC_Data[9] << 8);
-	RC.z = ((int16_t)RC_Data[10]) | ((int16_t)RC_Data[11] << 8); 
-	RC.press_l = RC_Data[12];
-	RC.press_r = RC_Data[13];
+	RC.mouse.x = ((int16_t)RC_Data[6]) | ((int16_t)RC_Data[7] << 8);
+	RC.mouse.y = ((int16_t)RC_Data[8]) | ((int16_t)RC_Data[9] << 8);
+	RC.mouse.z = ((int16_t)RC_Data[10]) | ((int16_t)RC_Data[11] << 8); 
+	RC.mouse.press_l = RC_Data[12];
+	RC.mouse.press_r = RC_Data[13];
 	//键盘
-	RC.key = ((int16_t)RC_Data[14]) | ((int16_t)RC_Data[15] << 8);
+	RC.key.all = ((int16_t)RC_Data[14]) | ((int16_t)RC_Data[15] << 8);
 	//wheel
 	RC.wheel = ((int16_t)RC_Data[16] | (int16_t)RC_Data[17] << 8) - 1024;
 	//接收到错误的消息，全部消息置0

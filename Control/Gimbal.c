@@ -64,7 +64,6 @@ void Gimbal_Calculate(void)
         Set_Pitch += Gimbal_Add.Pitch;
         break;
     case Shoot_Plugins:
-
 /***********************≤‚ ‘¥˙¬Î**************************/
 
 //        Set_Pitch=Set_Pitch*Pitch_ZiMiao_Filter[1]+Computer_Rx_Message.pitch*Pitch_ZiMiao_Filter[0];
