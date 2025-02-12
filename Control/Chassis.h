@@ -8,8 +8,9 @@
 #include "Remote.h"
 #include "PID.h"
 #include "Car_Mode.h"
+#include "stdbool.h"
 
-#define Gimbal_Yaw_ZERO 2295 //云台正方向和底盘正方向重合时候的编码值
+#define Gimbal_Yaw_ZERO 5427 //云台正方向和底盘正方向重合时候的编码值
 #define Gimbal_length 25 //mm底盘半径
 #define CHASSIS_DECELE_RATIO 19 //减速比
 #define Speed_Set 2000//速度

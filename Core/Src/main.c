@@ -53,7 +53,6 @@ RC_t RC;
 float Set_Yaw,Set_Pitch;
 uint8_t RC_Data[18];
 Car_Mode_t Car_Mode;
-Car_Action Last_Action;
 Chassis_Speed_t Temp_Chassis_Speed;
 Chassis_Speed_t Chassis_Speed;
 Gimbal_Add_t Gimbal_Add;
