@@ -11,9 +11,7 @@
 #include "stdbool.h"
 
 #define Gimbal_Yaw_ZERO 5427 //云台正方向和底盘正方向重合时候的编码值
-#define Gimbal_length 25 //mm底盘半径
-#define CHASSIS_DECELE_RATIO 19 //减速比
-#define Speed_Set 2000//速度
+#define Speed_Set 2388.535//速度
 #define WHEEL_PERIMETER 152 //mm底盘周长
 
 
@@ -33,6 +31,7 @@ void Chassis_PID_Clean_All(void);
 void Chassis_Stop(void);
 void Chassis_PID_Calc(void);
 float Find_Angle(void);
-void Chassis_Mode_Choose(void);
+void Keyboard_mode_Choose(void);
+void CHAS_Key_Ctrl(void);
 
 #endif

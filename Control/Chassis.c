@@ -10,6 +10,7 @@ extern PID_struct_t Follow_PID;
 float Angle;
 float err;
 int16_t   timeXFron,timeXBack,timeYLeft,timeYRigh;//键盘    w   s   a   d
+float x[10];
 //键盘模式下全向移动计算,斜坡量
 float Slope_Chassis_Move_Fron, Slope_Chassis_Move_Back;
 float Slope_Chassis_Move_Left, Slope_Chassis_Move_Righ;
@@ -22,8 +23,10 @@ float Find_Angle(void);
 
 /********************输入控制部分********************/
 void Chassis_Remote_Control(void);
-void Chassis_Mode_Choose(void);
+void Keyboard_mode_Choose(void);
 float Chassis_Key_MoveRamp(uint8_t status,int16_t *time,int16_t inc,int16_t dec);
+void CHAS_Key_Ctrl(void);
+
 
 /********************PID部分********************/
 void Chassis_PID_Init_All(void);
@@ -57,11 +60,11 @@ void Chassis_Solution(void)
  */
 void Chassis_Motor_Solution(void)
 {
-    float Wheel_Rpm_Ratio = 60.0f/(WHEEL_PERIMETER*3.14f) * CHASSIS_DECELE_RATIO * 10000;
-    M3508_Chassis[0].Set_Speed = Chassis_Speed.vx * 0.7071068f * Speed_Set + Chassis_Speed.vy * 0.7071068f * Speed_Set + Chassis_Speed.vw * Gimbal_length * Wheel_Rpm_Ratio;
-    M3508_Chassis[1].Set_Speed = -Chassis_Speed.vx * 0.7071068f * Speed_Set + Chassis_Speed.vy * 0.7071068f * Speed_Set + Chassis_Speed.vw * Gimbal_length * Wheel_Rpm_Ratio;
-    M3508_Chassis[2].Set_Speed = -Chassis_Speed.vx * 0.7071068f * Speed_Set - Chassis_Speed.vy * 0.7071068f * Speed_Set + Chassis_Speed.vw * Gimbal_length * Wheel_Rpm_Ratio;
-    M3508_Chassis[3].Set_Speed = Chassis_Speed.vx * 0.7071068f * Speed_Set - Chassis_Speed.vy * 0.7071068f * Speed_Set + Chassis_Speed.vw * Gimbal_length * Wheel_Rpm_Ratio;
+
+    M3508_Chassis[0].Set_Speed = Chassis_Speed.vx * 0.7071068f * Speed_Set + Chassis_Speed.vy * 0.7071068f * Speed_Set + Chassis_Speed.vw*Speed_Set*320 ;
+    M3508_Chassis[1].Set_Speed = -Chassis_Speed.vx * 0.7071068f * Speed_Set + Chassis_Speed.vy * 0.7071068f * Speed_Set + Chassis_Speed.vw*Speed_Set*320 ;
+    M3508_Chassis[2].Set_Speed = -Chassis_Speed.vx * 0.7071068f * Speed_Set - Chassis_Speed.vy * 0.7071068f * Speed_Set + Chassis_Speed.vw*Speed_Set*320;
+    M3508_Chassis[3].Set_Speed = Chassis_Speed.vx * 0.7071068f * Speed_Set - Chassis_Speed.vy * 0.7071068f * Speed_Set + Chassis_Speed.vw*Speed_Set*320 ;
 }
 
 
@@ -205,7 +208,8 @@ void Chassis_PID_Clean_All(void)
   * @attention 模式选择,进入小陀螺模式后退出到普通模式
   * @date 2025/1/26
   */
-void Chassis_Mode_Choose(void)
+			
+void Keyboard_mode_Choose(void)
 {
 //////////////////F键选择底盘跟随云台/////////////
     if(IF_KEY_PRESSED_F)
@@ -257,8 +261,8 @@ void Chassis_Keyboard_Control( int16_t sMoveMax, int16_t sMoveRamp_inc, int16_t 
 		//下面是键盘消抖
         if (IF_KEY_PRESSED_W)
         {
-            W = 1;
-            timeXFron = 0;//按下前进则后退斜坡归零,方便下次计算后退斜坡
+						W = 1;
+            timeXBack = 0;//按下前进则后退斜坡归零,方便下次计算后退斜坡
         }
         if(!IF_KEY_PRESSED_W)//放开按键w_cnt++归零
         {
@@ -272,7 +276,7 @@ void Chassis_Keyboard_Control( int16_t sMoveMax, int16_t sMoveRamp_inc, int16_t 
         if (IF_KEY_PRESSED_S)
         {
             S = 1;
-            timeXBack = 0;//同理
+            timeXFron = 0;//同理
         }
         if(!IF_KEY_PRESSED_S)//类似于消抖的操作
         {
@@ -319,7 +323,9 @@ void Chassis_Keyboard_Control( int16_t sMoveMax, int16_t sMoveRamp_inc, int16_t 
         Slope_Chassis_Move_Back = (int16_t)(Chassis_Standard_Move_Max * Chassis_Key_MoveRamp( S, &timeXBack, sMoveRamp_inc, sMoveRamp_dec ) );
         Slope_Chassis_Move_Left = (int16_t)(Chassis_Standard_Move_Max * Chassis_Key_MoveRamp( A, &timeYRigh, sMoveRamp_inc, sMoveRamp_dec ) );
         Slope_Chassis_Move_Righ = (int16_t)(Chassis_Standard_Move_Max * Chassis_Key_MoveRamp( D, &timeYLeft, sMoveRamp_inc, sMoveRamp_dec ) );
-    }
+		}
+    Temp_Chassis_Speed.vx  =  -(Slope_Chassis_Move_Back - Slope_Chassis_Move_Fron) / 8000.0f; //前后计算
+		Temp_Chassis_Speed.vy  = -(Slope_Chassis_Move_Left - Slope_Chassis_Move_Righ) / 8000.0f; //左右计算
 }
 
 /**
@@ -335,7 +341,7 @@ float Chassis_Key_MoveRamp(uint8_t status,int16_t *time,int16_t inc,int16_t dec)
 {
     float  factor = 0;
     factor = 0.15 * sqrt( 0.15 * (*time) );  //计算速度斜坡,time累加到296.3斜坡就完成
-    if (status == 1) {
+	if (status == 1) {
         if (factor < 1)//防止time太大
         {
             *time += inc;
@@ -349,7 +355,8 @@ float Chassis_Key_MoveRamp(uint8_t status,int16_t *time,int16_t inc,int16_t dec)
             }
         }
     }
-//    LimtValue_f(&factor, 1, 0 );//注意一定是float类型限幅
+		x[1]=factor;
+    factor=Limit_Min_Max(factor,0,1);
     return factor;  //注意方向
 }
 
@@ -396,12 +403,13 @@ int speed_fly_start=3000;
 int temp_power_limit = 0;
 float temp_vw_gyroscope = 0.0f;
 float temp_vm = 0.0f;
-void CHAS_Key_Ctrl(void) 
+void CHAS_Key_Ctrl(void)
 {
 	int max_speed=0;//按键速度上限
 	int max_speed_gyroscope=0;//小陀螺速度上限
 //	int power_limit=JUDGE_usGetPowerLimit();
 //    temp_power_limit = power_limit;
+			temp_power_limit = 120;
 	float vw_gyroscope=0;
     if(temp_power_limit==40){//比赛刚刚开始未设置模式
 			max_speed=3500;
@@ -477,11 +485,13 @@ void CHAS_Key_Ctrl(void)
 //        max_speed=2000;
 //        max_speed_gyroscope=2000;
 //    }
-    switch (Car_Mode.Action) {//模式选择
+    switch (Car_Mode.Action)
+    {
     case NORMAL://正常的模式，底盘不跟随云台行走
     { 
+				x[0]=max_speed;
         Chassis_Keyboard_Control(max_speed, 1,40);//3,25
-		Chassis_Speed.vw=0;
+				Chassis_Speed.vw=0;
         break;
 	}
     case FOLLOW://跟随云台走
