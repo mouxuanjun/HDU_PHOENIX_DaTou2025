@@ -90,7 +90,7 @@ void Shoot_Remote_Control(void)
             {
                 if(ABS(M2006_Rammer.total_angle) < MOTOR_2006_CIRCLE_ANGLE / 8.0f) //未转过一个齿位
                 {
-                    M2006_Rammer.Set_Speed = -1600;
+                    M2006_Rammer.Set_Speed = -2000;
                 }
                 else
                 {
@@ -115,7 +115,7 @@ void Shoot_Remote_Control(void)
         {
             if(ABS(M2006_Rammer.total_angle) < MOTOR_2006_CIRCLE_ANGLE / 8.0f) //未转过一个齿位
             {
-                M2006_Rammer.Set_Speed = -1600;
+                M2006_Rammer.Set_Speed = -2000;
             }
             else
             {
@@ -128,7 +128,7 @@ void Shoot_Remote_Control(void)
     case Shoot_Sustain:
 			if(RC.wheel >= 300 && RC.s1 == 2)
 			{
-                M2006_Rammer.Set_Speed = -1600;
+                M2006_Rammer.Set_Speed = -2000;
 			}else 
 			{
                 M2006_Rammer.Set_Speed = 0;
