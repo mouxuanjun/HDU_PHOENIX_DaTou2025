@@ -17,10 +17,10 @@
         </Windows>
         <SelectedSymbols>
             <Symbol>
-                <Options Name="rotor_angle" Address="0x200004C8" Type="ushort" TypeID="7" Size="2" GraphColorRed="255" GraphColorGreen="0" GraphColorBlue="0" YMinSampled="5533" YMaxSampled="7281" YAvgSampled="6129.29" Offset="4" ShowInGraph="1" ACCoupling="0" YOffset="-32" IsAutoConfig="0" YResolution="200" MaxValue="65535" File="" Scope="1" DrawStyle="0" />
+                <Options Name="Set_Pitch" Address="0x20000004" Type="float" TypeID="1" Size="4" GraphColorRed="255" GraphColorGreen="0" GraphColorBlue="0" YMinSampled="1.79769e+308" YMaxSampled="-1.79769e+308" YAvgSampled="0" Offset="0" ShowInGraph="1" ACCoupling="0" YOffset="0" IsAutoConfig="0" YResolution="1" MaxValue="-2147483648" File="../Core/Src/main.c" Scope="0" DrawStyle="0" />
             </Symbol>
             <Symbol>
-                <Options Name="Set_Angle" Address="0x200004D4" Type="float" TypeID="1" Size="4" GraphColorRed="84" GraphColorGreen="255" GraphColorBlue="37" YMinSampled="0" YMaxSampled="7260" YAvgSampled="5925.24" Offset="6" ShowInGraph="1" ACCoupling="0" YOffset="-32" IsAutoConfig="0" YResolution="200" MaxValue="-2147483648" File="" Scope="1" DrawStyle="0" />
+                <Options Name="IMU_angle[2]" Address="0x200002FC" Type="float" TypeID="1" Size="4" GraphColorRed="178" GraphColorGreen="255" GraphColorBlue="96" YMinSampled="1.79769e+308" YMaxSampled="-1.79769e+308" YAvgSampled="0" Offset="0" ShowInGraph="1" ACCoupling="0" YOffset="0" IsAutoConfig="0" YResolution="1" MaxValue="0" File="../Core/Src/main.c" Scope="0" DrawStyle="0" />
             </Symbol>
         </SelectedSymbols>
     </Project>
