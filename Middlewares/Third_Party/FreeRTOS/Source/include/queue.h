@@ -37,6 +37,7 @@
 extern "C" {
 #endif
 
+#include "FreeRTOS.h"
 #include "task.h"
 
 /**

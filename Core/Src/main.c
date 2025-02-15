@@ -40,6 +40,7 @@
 #include "Gimbal.h"
 #include "M2006.h"
 #include "IMU_Task.h"
+#include "judge.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,6 +60,7 @@ Gimbal_Add_t Gimbal_Add;
 PID_struct_t Follow_PID;
 Computer_Rx_Message_t Computer_Rx_Message;
 Computer_Tx_Message_t Computer_Tx_Message;
+uint8_t judge_rx_buff[JUDGE_MAX_LENGTH];
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -103,7 +105,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-   HAL_Init();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -126,9 +128,12 @@ int main(void)
   MX_SPI1_Init();
   MX_TIM10_Init();
   MX_I2C3_Init();
+  MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
   CAN_Filter_Init();
 	HAL_UART_Receive_DMA(&huart3,RC_Data,sizeof(RC_Data));
+  __HAL_UART_ENABLE_IT(&huart6, UART_IT_IDLE);//使能idle中断,用于裁判系统读取
+	HAL_UART_Receive_DMA(&huart6,judge_rx_buff,2000);//打开DMA接收，数据存入rx_buffer_judge数组中。
 	Car_Init();
 	MX_USB_DEVICE_Init();
 	Computer_Init();

@@ -66,13 +66,12 @@ void Shoot_Remote_Control(void)
 {
     if(RC.s1 == 2)
     {
-        M3508_Shoot[0].Set_Speed = 6000;
-        M3508_Shoot[1].Set_Speed = -6000;
+        M3508_Shoot[0].Set_Speed = 6688;
+				M3508_Shoot[1].Set_Speed = -6688;
     }else{
         M3508_Shoot[0].Set_Speed = 0;
-        M3508_Shoot[1].Set_Speed = 0;
+				M3508_Shoot[1].Set_Speed = 0;
 				M2006_Rammer.Set_Speed = 0;
-        M2006_Rammer.rotor_angle = M2006_Rammer.rotor_angle;
     }
     switch (Car_Mode.Shoot)
     {
@@ -143,12 +142,12 @@ void Shoot_PID_Calc(void)
  * @file Shoot.c
  * @brief ≥ı ºªØPID
  * @author HWX
- * @date 2024/10/20
+ * @date 2024/10/20                                                                                                                                                                                                                                                                                                                                                           
  */
 void Shoot_PID_Init_ALL(void)
 {
-    PID_init(&(M3508_Shoot[0].PID),40,0,0,16380,16380);
-    PID_init(&(M3508_Shoot[1].PID),40,00,0,16380,16380);
+    PID_init(&(M3508_Shoot[0].PID),40,0,0,16380,16380);//40,0,0
+    PID_init(&(M3508_Shoot[1].PID),40,0,0,16380,16380);//40,0,0
     PID_init(&(M2006_Rammer.Speed_PID),20,0,10,16380,16380);
 }
 

@@ -61,10 +61,10 @@ void Chassis_Solution(void)
 void Chassis_Motor_Solution(void)
 {
 
-    M3508_Chassis[0].Set_Speed = Chassis_Speed.vx * 0.7071068f * Speed_Set + Chassis_Speed.vy * 0.7071068f * Speed_Set + Chassis_Speed.vw*Speed_Set*320 ;
-    M3508_Chassis[1].Set_Speed = -Chassis_Speed.vx * 0.7071068f * Speed_Set + Chassis_Speed.vy * 0.7071068f * Speed_Set + Chassis_Speed.vw*Speed_Set*320 ;
-    M3508_Chassis[2].Set_Speed = -Chassis_Speed.vx * 0.7071068f * Speed_Set - Chassis_Speed.vy * 0.7071068f * Speed_Set + Chassis_Speed.vw*Speed_Set*320;
-    M3508_Chassis[3].Set_Speed = Chassis_Speed.vx * 0.7071068f * Speed_Set - Chassis_Speed.vy * 0.7071068f * Speed_Set + Chassis_Speed.vw*Speed_Set*320 ;
+    M3508_Chassis[0].Set_Speed = Chassis_Speed.vx * 0.7071f * Speed_Set + Chassis_Speed.vy * 0.7071f * Speed_Set + Chassis_Speed.vw*Speed_Set*320 ;
+    M3508_Chassis[1].Set_Speed = -Chassis_Speed.vx * 0.7071f * Speed_Set + Chassis_Speed.vy * 0.7071f * Speed_Set + Chassis_Speed.vw*Speed_Set*320;
+    M3508_Chassis[2].Set_Speed = -Chassis_Speed.vx * 0.7071f * Speed_Set - Chassis_Speed.vy * 0.7071f * Speed_Set + Chassis_Speed.vw*Speed_Set*320;
+    M3508_Chassis[3].Set_Speed = Chassis_Speed.vx * 0.7071f * Speed_Set - Chassis_Speed.vy * 0.7071f * Speed_Set + Chassis_Speed.vw*Speed_Set*320 ;
 }
 
 
@@ -355,7 +355,6 @@ float Chassis_Key_MoveRamp(uint8_t status,int16_t *time,int16_t inc,int16_t dec)
             }
         }
     }
-		x[1]=factor;
     factor=Limit_Min_Max(factor,0,1);
     return factor;  //注意方向
 }
@@ -407,9 +406,9 @@ void CHAS_Key_Ctrl(void)
 {
 	int max_speed=0;//按键速度上限
 	int max_speed_gyroscope=0;//小陀螺速度上限
-//	int power_limit=JUDGE_usGetPowerLimit();
-//    temp_power_limit = power_limit;
-			temp_power_limit = 120;
+	int power_limit=JUDGE_usGetPowerLimit();
+    temp_power_limit = power_limit;
+	x[0]=power_limit;
 	float vw_gyroscope=0;
     if(temp_power_limit==40){//比赛刚刚开始未设置模式
 			max_speed=3500;
@@ -477,19 +476,10 @@ void CHAS_Key_Ctrl(void)
 			max_speed_gyroscope=5000;
 			vw_gyroscope=0.0070;
 		}
-//	if(IF_KEY_PRESSED_B){
-//		max_speed=max_speed*0.2;
-//	}
-//    if(IF_KEY_PRESSED_Z)
-//    {
-//        max_speed=2000;
-//        max_speed_gyroscope=2000;
-//    }
     switch (Car_Mode.Action)
     {
     case NORMAL://正常的模式，底盘不跟随云台行走
     { 
-				x[0]=max_speed;
         Chassis_Keyboard_Control(max_speed, 1,40);//3,25
 				Chassis_Speed.vw=0;
         break;

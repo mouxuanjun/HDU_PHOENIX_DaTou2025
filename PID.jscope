@@ -17,10 +17,10 @@
         </Windows>
         <SelectedSymbols>
             <Symbol>
-                <Options Name="Set_Pitch" Address="0x20000004" Type="float" TypeID="1" Size="4" GraphColorRed="255" GraphColorGreen="0" GraphColorBlue="0" YMinSampled="1.79769e+308" YMaxSampled="-1.79769e+308" YAvgSampled="0" Offset="0" ShowInGraph="1" ACCoupling="0" YOffset="0" IsAutoConfig="0" YResolution="1" MaxValue="-2147483648" File="../Core/Src/main.c" Scope="0" DrawStyle="0" />
+                <Options Name="rotor_speed" Address="0x20000430" Type="short" TypeID="11" Size="2" GraphColorRed="255" GraphColorGreen="0" GraphColorBlue="0" YMinSampled="1.79769e+308" YMaxSampled="-1.79769e+308" YAvgSampled="0" Offset="0" ShowInGraph="1" ACCoupling="0" YOffset="0" IsAutoConfig="0" YResolution="1" MaxValue="32767" File="" Scope="1" DrawStyle="0" />
             </Symbol>
             <Symbol>
-                <Options Name="IMU_angle[2]" Address="0x200002FC" Type="float" TypeID="1" Size="4" GraphColorRed="178" GraphColorGreen="255" GraphColorBlue="96" YMinSampled="1.79769e+308" YMaxSampled="-1.79769e+308" YAvgSampled="0" Offset="0" ShowInGraph="1" ACCoupling="0" YOffset="0" IsAutoConfig="0" YResolution="1" MaxValue="0" File="../Core/Src/main.c" Scope="0" DrawStyle="0" />
+                <Options Name="Set_Speed" Address="0x20000436" Type="short" TypeID="11" Size="2" GraphColorRed="188" GraphColorGreen="255" GraphColorBlue="80" YMinSampled="1.79769e+308" YMaxSampled="-1.79769e+308" YAvgSampled="0" Offset="0" ShowInGraph="1" ACCoupling="0" YOffset="0" IsAutoConfig="0" YResolution="1" MaxValue="32767" File="" Scope="1" DrawStyle="0" />
             </Symbol>
         </SelectedSymbols>
     </Project>

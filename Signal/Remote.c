@@ -126,10 +126,10 @@ void Control_Mode_Choose(void)
 			Car_Mode.Shoot = Shoot_Plugins;
 			break;
 		case 3:
-			Car_Mode.Shoot = Shoot_Single;
+			Car_Mode.Shoot = Shoot_Sustain;
 			break;
 		case 2:
-			Car_Mode.Shoot = Shoot_Sustain;
+			Car_Mode.Shoot = Shoot_Single;
 			break;
 		}
 	}
