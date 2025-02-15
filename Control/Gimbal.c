@@ -11,9 +11,6 @@ extern Computer_Rx_Message_t Computer_Rx_Message;
 //自喵过滤器
 float Yaw_ZiMiao_Filter[2]={0.01,0.99};
 float Pitch_ZiMiao_Filter[2]={0.01,0.99};
-//大符过滤器
-//static float Yaw_Fu_Filter[2]={0.01,0.99};
-//static float Pitch_Fu_Filter[2]={0.01,0.99};
 
 /********************输入控制部分********************/
 void Gimbal_Remote_Control(void);
@@ -59,8 +56,15 @@ void Gimbal_Calculate(void)
         Set_Pitch += Gimbal_Add.Pitch;
 				break;
     case Shoot_Single: 
-        Set_Yaw -= Gimbal_Add.Yaw;
-        Set_Pitch += Gimbal_Add.Pitch;
+		if(Computer_Rx_Message.find_bool == '1')
+		{
+            Set_Yaw=Computer_Rx_Message.yaw*Yaw_ZiMiao_Filter[0]+Set_Yaw*Yaw_ZiMiao_Filter[1];
+            Set_Pitch=Computer_Rx_Message.pitch*Pitch_ZiMiao_Filter[0]+Set_Pitch*Pitch_ZiMiao_Filter[1];
+		}else
+		{
+            Set_Yaw -= Gimbal_Add.Yaw;
+            Set_Pitch += Gimbal_Add.Pitch;
+		}
         break;
     case Shoot_Plugins:
 /***********************测试代码**************************/
