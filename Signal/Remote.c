@@ -4,6 +4,7 @@
 extern RC_t RC;
 extern uint8_t RC_Data[18];
 extern Car_Mode_t Car_Mode;
+extern Computer_Tx_Message_t Computer_Tx_Message;
 
 /* »ñÈ¡Ò£¿ØÆ÷Ò¡¸ËÆ«ÒÆÁ¿
 	¸ù¾ÝÒ£¿ØÆ÷ÎÄµµ£º
@@ -124,12 +125,16 @@ void Control_Mode_Choose(void)
 		{
 		case 1:
 			Car_Mode.Shoot = Shoot_Plugins;
+			Computer_Tx_Message.mode = 0;
+			Computer_Tx_Message.rune_flag = 0;
 			break;
 		case 3:
 			Car_Mode.Shoot = Shoot_Sustain;
 			break;
 		case 2:
 			Car_Mode.Shoot = Shoot_Single;
+			Computer_Tx_Message.mode = 1;
+			Computer_Tx_Message.rune_flag = 2;
 			break;
 		}
 	}

@@ -45,22 +45,30 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-float INS_angle[3] = {0.0f, 0.0f, 0.0f};      //euler angle, unit rad.欧锟斤拷锟斤拷 锟斤拷位 rad
+/******************************陀螺仪解算相关系数*******************************/
+float INS_angle[3] = {0.0f, 0.0f, 0.0f};
 float IMU_angle[3] = {0.0f, 0.0f, 0.0f};
+/******************************整车电机相关系数*******************************/
 Moto_M3508_t M3508_Chassis[4],M3508_Shoot[2];
 Moto_GM6020_t GM6020_Yaw,GM6020_Pitch;
 Moto_M2006_t M2006_Rammer;
+/******************************遥控器相关系数*******************************/
 RC_t RC;
-float Set_Yaw,Set_Pitch;
 uint8_t RC_Data[18];
+/******************************其他相关系数*******************************/
+float Set_Yaw,Set_Pitch;
 Car_Mode_t Car_Mode;
+/******************************底盘解算相关系数*******************************/
 Chassis_Speed_t Temp_Chassis_Speed;
 Chassis_Speed_t Chassis_Speed;
 Gimbal_Add_t Gimbal_Add;
 PID_struct_t Follow_PID;
+/******************************小电脑通信相关系数*******************************/
 Computer_Rx_Message_t Computer_Rx_Message;
 Computer_Tx_Message_t Computer_Tx_Message;
 uint8_t judge_rx_buff[JUDGE_MAX_LENGTH];
+/*******************************裁判系统相关系数******************************/
+int Chassis_Power_Limit;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -132,7 +140,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   CAN_Filter_Init();
 	HAL_UART_Receive_DMA(&huart3,RC_Data,sizeof(RC_Data));
-  __HAL_UART_ENABLE_IT(&huart6, UART_IT_IDLE);//使能idle中断,用于裁判系统读取
+  __HAL_UART_ENABLE_IT(&huart6, UART_IT_IDLE);//使能 中断,用于裁判系统读取
 	HAL_UART_Receive_DMA(&huart6,judge_rx_buff,2000);//打开DMA接收，数据存入rx_buffer_judge数组中。
 	Car_Init();
 	MX_USB_DEVICE_Init();

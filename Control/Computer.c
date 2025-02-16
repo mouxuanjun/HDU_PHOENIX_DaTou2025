@@ -21,8 +21,6 @@ void Computer_Init(void)
     Computer_Tx_Message.start = 's';
     Computer_Tx_Message.type = 0xB0;//调试用
     Computer_Tx_Message.enemy_team_color = 0;//调试用
-    Computer_Tx_Message.mode = 1;//调试用
-    Computer_Tx_Message.rune_flag = 2;//调试用
     Computer_Tx_Message.end = 'e';
 }
 
