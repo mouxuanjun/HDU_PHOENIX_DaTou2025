@@ -1,6 +1,7 @@
 #include "ChassisTask.h"
 
 extern Car_Mode_t Car_Mode;
+extern float Chassis_Power_Limit,Chassis_Power_Now,Chassis_Power_Buffer;
 
 void ChassisTask(void const * argument)
 {
@@ -9,6 +10,9 @@ void ChassisTask(void const * argument)
     { 
         currentTime = xTaskGetTickCount();//当前系统时间
         Control_Mode_Choose();//选择模式
+        Chassis_Power_Now=JUDGE_fGetChassisPower();
+        Chassis_Power_Limit=JUDGE_usGetPowerLimit();
+        Chassis_Power_Buffer=JUDGE_fGetRemainEnergy();
         switch (Car_Mode.State)
         {
         case Car_Remote:
@@ -16,9 +20,6 @@ void ChassisTask(void const * argument)
             Chassis_Move();
             break;
         case Car_Keyboard:
-            Keyboard_mode_Choose();
-            CHAS_Key_Ctrl();
-            Chassis_Move();
             break;
         case Car_Stop:
             Chassis_Stop();

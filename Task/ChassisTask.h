@@ -6,5 +6,6 @@
 #include "Remote.h"
 #include "FreeRTOS.h"
 #include "Task.h"
+#include "judge.h"
 
 #endif

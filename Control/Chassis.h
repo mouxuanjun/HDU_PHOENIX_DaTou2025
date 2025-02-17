@@ -23,6 +23,13 @@ typedef struct
     float vw;
 }Chassis_Speed_t;
 
+typedef struct
+{
+    float x;
+    float y;
+    float w;
+    float t;
+}Chassis_Step;
 
 void Chassis_Move(void);
 void Chassis_Remote_Control(void);

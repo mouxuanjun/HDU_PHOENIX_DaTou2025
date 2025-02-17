@@ -59,7 +59,7 @@ uint8_t RC_Data[18];
 float Set_Yaw,Set_Pitch;
 Car_Mode_t Car_Mode;
 /******************************底盘解算相关系数*******************************/
-Chassis_Speed_t Temp_Chassis_Speed;
+Chassis_Speed_t Temp1_Chassis_Speed,Temp2_Chassis_Speed;
 Chassis_Speed_t Chassis_Speed;
 Gimbal_Add_t Gimbal_Add;
 PID_struct_t Follow_PID;
@@ -68,7 +68,7 @@ Computer_Rx_Message_t Computer_Rx_Message;
 Computer_Tx_Message_t Computer_Tx_Message;
 uint8_t judge_rx_buff[JUDGE_MAX_LENGTH];
 /*******************************裁判系统相关系数******************************/
-int Chassis_Power_Limit;
+float Chassis_Power_Limit,Chassis_Power_Now,Chassis_Power_Buffer;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
