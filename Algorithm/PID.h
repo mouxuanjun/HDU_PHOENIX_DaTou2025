@@ -28,7 +28,7 @@ float PID_Calc_Angle(PID_struct_t *PID, float ref, float fdb);//PIDÔËËãº¯Êı£¨Ä¿±
 float PID_Calc_Speed(PID_struct_t *PID, float ref, float fdb);//PIDÔËËãº¯Êı£¨Ä¿±ê£¬Êµ¼Ê£©
 float PID_Calc_Ink(PID_struct_t *PID, float ref, float fdb);//PIDÔËËãº¯Êı£¨Ä¿±ê£¬Êµ¼Ê£©
 //float PID_Calc_Follow(PID_struct_t *PID, float ref, float fdb);//PIDÔËËãº¯Êı£¨Ä¿±ê£¬Êµ¼Ê£©
-int Limit_Min_Max(int value,int min,int max);
+float Limit_Min_Max(float value,float min,float max);
 
 #endif
 

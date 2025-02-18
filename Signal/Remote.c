@@ -67,6 +67,8 @@ void Car_Init(void)
  * @author HWX
  * @date 2024/10/20
  */
+static Car_Action_t Last_Action=NORMAL;
+bool F_judge=false;
 void Control_Mode_Choose(void)
 {
 	if(RC.s1==1)
@@ -137,5 +139,28 @@ void Control_Mode_Choose(void)
 			Computer_Tx_Message.rune_flag = 2;
 			break;
 		}
+	}
+	if(Car_Mode.State == Car_Keyboard)
+	{
+		if(IF_KEY_PRESSED_SHIFT == 1)
+			Car_Mode.Action = GYROSCOPE;
+		if(IF_KEY_PRESSED_SHIFT == 0)
+			Car_Mode.Action = Last_Action;
+		if(IF_KEY_PRESSED_F == 1 && F_judge == true)
+		{
+			if(Car_Mode.Action == FOLLOW)
+			{
+				Car_Mode.Action = NORMAL;
+				Last_Action = NORMAL;
+			}
+			else if(Car_Mode.Action == NORMAL)
+			{
+				Car_Mode.Action = FOLLOW;
+				Last_Action = FOLLOW;
+			}
+		F_judge = false;
+		}
+		if(IF_KEY_PRESSED_F == 0)
+		F_judge = true;
 	}
 }

@@ -20,7 +20,7 @@ void Chassis_Speed_XiePo(Chassis_Speed_t* target_speed, Chassis_Speed_t* XiePo_s
 
 /********************输入控制部分********************/
 void Chassis_Remote_Control(void);
-void Keyboard_mode_Choose(void);
+void  Chassis_KeyBoard_Control(void);
 
 /********************PID部分********************/
 void Chassis_PID_Init_All(void);
@@ -146,7 +146,7 @@ void Chassis_Remote_Control(void)
         Temp1_Chassis_Speed.vx = (float)RC.ch3/250;
         Temp1_Chassis_Speed.vy = (float)RC.ch2/250;
 		PID_Calc_Angle(&Follow_PID,0.0f,err);
-        Temp1_Chassis_Speed.vw = Follow_PID.output/1000;
+        Temp1_Chassis_Speed.vw = Follow_PID.output/Follow_Set;
     default:
         break;
     }
@@ -201,6 +201,69 @@ void Chassis_PID_Clean_All(void)
     PID_init(&(M3508_Chassis[1].PID),0,0,0,0,0);
     PID_init(&(M3508_Chassis[2].PID),0,0,0,0,0);
     PID_init(&(M3508_Chassis[3].PID),0,0,0,0,0);
+}
+
+
+
+void  Chassis_KeyBoard_Control(void)
+{
+    switch (Car_Mode.Action)
+    {
+    case GYROSCOPE:
+        if(IF_KEY_PRESSED_W == 1)
+            Temp1_Chassis_Speed.vx = 2.0f;
+        if(IF_KEY_PRESSED_S == 1)
+            Temp1_Chassis_Speed.vx = -2.0f;
+        if(IF_KEY_PRESSED_W == 0 && IF_KEY_PRESSED_S == 0)
+            Temp1_Chassis_Speed.vx = 0.0f;
+        if(IF_KEY_PRESSED_A == 1)
+            Temp1_Chassis_Speed.vy = -2.0f;
+        if(IF_KEY_PRESSED_D == 1)
+            Temp1_Chassis_Speed.vy = 2.0f;
+        if(IF_KEY_PRESSED_A == 0 && IF_KEY_PRESSED_D == 0)
+            Temp1_Chassis_Speed.vy = 0.0f;
+        Temp1_Chassis_Speed.vw = 0.046;
+        break;
+    case NORMAL:
+        if(IF_KEY_PRESSED_W == 1)
+            Temp1_Chassis_Speed.vx = 2.5f;
+        if(IF_KEY_PRESSED_S == 1)
+            Temp1_Chassis_Speed.vx = -2.5f;
+        if(IF_KEY_PRESSED_W == 0 && IF_KEY_PRESSED_S == 0)
+            Temp1_Chassis_Speed.vx = 0.0f;
+        if(IF_KEY_PRESSED_A == 1)
+            Temp1_Chassis_Speed.vy = -2.5f;
+        if(IF_KEY_PRESSED_D == 1)
+            Temp1_Chassis_Speed.vy = 2.5f;
+        if(IF_KEY_PRESSED_A == 0 && IF_KEY_PRESSED_D == 0)
+            Temp1_Chassis_Speed.vy = 0.0f;
+        Temp1_Chassis_Speed.vw = 0;
+        break;
+    case FOLLOW:
+        if(IF_KEY_PRESSED_W == 1)
+            Temp1_Chassis_Speed.vx = 2.5f;
+        if(IF_KEY_PRESSED_S == 1)
+            Temp1_Chassis_Speed.vx = -2.5f;
+        if(IF_KEY_PRESSED_W == 0 && IF_KEY_PRESSED_S == 0)
+            Temp1_Chassis_Speed.vx = 0.0f;
+        if(IF_KEY_PRESSED_A == 1)
+            Temp1_Chassis_Speed.vy = -2.5f;
+        if(IF_KEY_PRESSED_D == 1)
+            Temp1_Chassis_Speed.vy = 2.5f;
+        if(IF_KEY_PRESSED_A == 0 && IF_KEY_PRESSED_D == 0)
+            Temp1_Chassis_Speed.vy = 0.0f;
+        PID_Calc_Angle(&Follow_PID,0.0f,err);
+        Temp1_Chassis_Speed.vw = Follow_PID.output/Follow_Set;
+    default:
+        break;
+    }
+		if(Chassis_Power_Buffer>0 && Chassis_Power_Limit>0)
+		{
+			Chassis_Speed_XiePo(&Temp1_Chassis_Speed,&Temp2_Chassis_Speed);
+		}else
+		{
+			Temp1_Chassis_Speed=Temp2_Chassis_Speed;
+		}
 }
 
 

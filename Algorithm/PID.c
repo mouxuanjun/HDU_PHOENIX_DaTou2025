@@ -7,7 +7,7 @@
 *先调速度环，等速度环能实现跳变跟随再调角度。调速度时，pitch轴如果有角度限制，叫结构先把角度限制拆除
 ********************************************************************************************/
 
-int Limit_Min_Max(int value,int min,int max);
+float Limit_Min_Max(float value,float min,float max);
 
 /**
  * @brief PID数组初始化
@@ -121,7 +121,7 @@ float PID_Calc_Speed(PID_struct_t *PID, float ref, float fdb)//PID运算函数（目标
  * @param max 最大值
  * @return 
  */
-int Limit_Min_Max(int value,int min,int max)
+float Limit_Min_Max(float value,float min,float max)
 {
 	if(value<min)
 		return min;

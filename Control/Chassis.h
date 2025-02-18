@@ -14,6 +14,7 @@
 #define Gimbal_Yaw_ZERO 5427 //云台正方向和底盘正方向重合时候的编码值
 #define Speed_Set 2388.535f//速度
 #define WHEEL_PERIMETER 152 //mm底盘周长
+#define Follow_Set 1000 
 
 
 typedef struct
@@ -39,7 +40,7 @@ void Chassis_PID_Clean_All(void);
 void Chassis_Stop(void);
 void Chassis_PID_Calc(void);
 float Find_Angle(void);
-void Keyboard_mode_Choose(void);
-void CHAS_Key_Ctrl(void);
+void  Chassis_KeyBoard_Control(void);
+
 
 #endif

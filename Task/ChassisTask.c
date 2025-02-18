@@ -20,6 +20,8 @@ void ChassisTask(void const * argument)
             Chassis_Move();
             break;
         case Car_Keyboard:
+            Chassis_KeyBoard_Control();
+            Chassis_Move();
             break;
         case Car_Stop:
             Chassis_Stop();
