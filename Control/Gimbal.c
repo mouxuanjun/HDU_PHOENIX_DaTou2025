@@ -14,6 +14,7 @@ float Pitch_ZiMiao_Filter[2]={0.01,0.99};
 
 /********************输入控制部分********************/
 void Gimbal_Remote_Control(void);
+void Gimbal_KeyBorad_Control(void);
 
 /********************解算部分********************/
 void Gimbal_Calculate(void);
@@ -137,8 +138,8 @@ void Gimbal_Stop(void)
  */
 void Gimbal_Remote_Control(void)
 {
-	Gimbal_Add.Pitch = (float)RC.ch1/Gimbal_Pithch_Set;
-	Gimbal_Add.Yaw = (float)RC.ch0/Gimbal_Yaw_Set;
+	Gimbal_Add.Pitch = (float)RC.ch1/Gimbal_Pithch_Remote;
+	Gimbal_Add.Yaw = (float)RC.ch0/Gimbal_Yaw_Remote;
 }
 
 /**
@@ -192,4 +193,10 @@ void Gimbal_PID_Clean_All(void)
     PID_init(&(GM6020_Pitch.Speed_PID),0,0,0,0,0);
     PID_init(&(GM6020_Yaw.Angle_PID),0,0,0,0,0);
     PID_init(&(GM6020_Yaw.Speed_PID),0,0,0,0,0);
+}
+
+void Gimbal_KeyBorad_Control(void)
+{
+	Gimbal_Add.Pitch = -(float)RC.mouse.y/Gimbal_Pithch_KeyBoard;
+	Gimbal_Add.Yaw = (float)RC.mouse.x/Gimbal_Yaw_KeyBoard;
 }

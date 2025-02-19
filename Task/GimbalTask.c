@@ -18,7 +18,9 @@ void GimbalTask(void const * argument)
         case Car_Stop:
             Gimbal_Stop();
             break;
-                
+        case Car_Keyboard:
+            Gimbal_KeyBorad_Control();
+            Gimbal_Move();
         default:
             break;
         }

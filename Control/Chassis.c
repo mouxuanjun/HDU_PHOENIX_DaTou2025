@@ -272,6 +272,7 @@ Chassis_Step step_l, step_s;
 float  Speed_V1_Fabs, Speed_V_Dif, Speed_W_Fabs,Speed_W_Dif , Speed_V2_Fabs;
 void Chassis_Speed_XiePo(Chassis_Speed_t* target_speed, Chassis_Speed_t* XiePo_speed) 
 {
+		
     float fen;
     //float bx, by;
     Speed_V1_Fabs = sqrtf(powf(XiePo_speed->vx, 2) + powf(XiePo_speed->vy, 2));
@@ -282,7 +283,7 @@ void Chassis_Speed_XiePo(Chassis_Speed_t* target_speed, Chassis_Speed_t* XiePo_s
 
     step_l.t = 0.005f * powf(Chassis_Power_Now / Chassis_Power_Limit, 2.0f);
 
-    if (Speed_W_Fabs > 0.000044f) {
+    if (Speed_W_Fabs > 0.00004f) {
         step_l.w = (0 - XiePo_speed->vw) / Speed_W_Fabs * step_l.t / 100;
     }
     else {
@@ -305,8 +306,8 @@ void Chassis_Speed_XiePo(Chassis_Speed_t* target_speed, Chassis_Speed_t* XiePo_s
     else {
         fen = 1;
     }
-    if (Speed_W_Dif > 0.000044f) {
-        step_s.w = (target_speed->vw - XiePo_speed->vw) / Speed_W_Dif * step_s.t / 100 * fen;
+    if (Speed_W_Dif > 0.00004f) {
+        step_s.w = (target_speed->vw - XiePo_speed->vw) / Speed_W_Dif * step_s.t / 500 * fen;
     }
     else {
         step_s.w = 0;
@@ -322,6 +323,10 @@ void Chassis_Speed_XiePo(Chassis_Speed_t* target_speed, Chassis_Speed_t* XiePo_s
     XiePo_speed->vx = XiePo_speed->vx + step_l.x + step_s.x;
     XiePo_speed->vy = XiePo_speed->vy + step_l.y + step_s.y;
     XiePo_speed->vw = XiePo_speed->vw + step_l.w + step_s.w;
+		if(target_speed->vw==0)
+		{
+			XiePo_speed->vw=0;
+		}
     // if (Speed_W_Fabs > 0.001 && Speed_V1_Fabs > 0.001) {
     //     bx = XiePo_speed->vw / 500 * XiePo_speed->vy;
     //     by = -XiePo_speed->vw / 500 * XiePo_speed->vx;

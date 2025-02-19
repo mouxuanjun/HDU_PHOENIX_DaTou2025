@@ -10,8 +10,10 @@
 
 #define Gimbal_Pitch_MAX 47.0f
 #define Gimbal_Pitch_MIN -24.0f
-#define Gimbal_Pithch_Set 2000
-#define Gimbal_Yaw_Set 2000  //Last:50
+#define Gimbal_Pithch_Remote 2000
+#define Gimbal_Yaw_Remote 2000
+#define Gimbal_Pithch_KeyBoard 20000
+#define Gimbal_Yaw_KeyBoard 7500
 
 typedef struct
 {
@@ -20,6 +22,7 @@ typedef struct
 }Gimbal_Add_t;
 
 void Gimbal_Remote_Control(void);
+void Gimbal_KeyBorad_Control(void);
 void Gimbal_Init(void);
 void Gimbal_Move(void);
 void Gimbal_Stop(void);
