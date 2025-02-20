@@ -20,6 +20,8 @@ void Shoot_PID_Init_ALL(void);
 void Shoot_PID_Calc(void);
 void Shoot_PID_Clean_ALL(void);
 void Shoot_Stop(void);
+void Speed17mm_Control(void);
+void Shoot_KeyBoard_Control(void);
 
 #endif
 

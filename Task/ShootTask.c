@@ -14,6 +14,7 @@ void ShootTask(void const * argument)
     { 
         currentTime = xTaskGetTickCount();//当前系统时间
         Shoot_Reload_Choose();
+        Speed17mm_Control();
         switch (Car_Mode.State)
         {
         case Car_Remote:
@@ -21,11 +22,12 @@ void ShootTask(void const * argument)
             Shoot_Move();
             break;
         case Car_Keyboard:
+            Shoot_KeyBoard_Control();
+            Shoot_Move();
             break;
         case Car_Stop:
             Shoot_Stop();
             break;
-                
         default:
             break;
         }
