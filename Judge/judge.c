@@ -479,7 +479,6 @@ uint8_t JUDGE_ucGetRobotLevel(void)
 /**
   * @brief  读取枪口热量
   * @param  void
-  * @retval 42mm
   * @attention  实时热量
   */
 uint16_t JUDGE_usGetRemoteHeat17(void)
@@ -490,35 +489,14 @@ uint16_t JUDGE_usGetRemoteHeat17(void)
 /**
   * @brief  读取射速
   * @param  void
-  * @retval 42mm
   * @attention  实时射速
   */
 float JUDGE_usGetSpeedHeat17(void)
 {
-    return (judge_frame_rx.data.shoot_data.launching_frequency);
+    return (judge_frame_rx.data.shoot_data.initial_speed);
 }
 
-/**
-  * @brief  统计发弹量
-  * @param  void
-  * @retval void
-  * @attention
-  */
-//portTickType shoot_time;//发射延时测试
-//portTickType shoot_ping;//计算出的最终发弹延迟
-//float Shoot_Speed_Now = 0;
-//float Shoot_Speed_Last = 0;
-//void JUDGE_ShootNumCount(void)
-//{
-//    Shoot_Speed_Now = judge_frame_rx.data.shoot_data.bullet_speed;
-//    if(Shoot_Speed_Last != Shoot_Speed_Now)//因为是float型，几乎不可能完全相等,所以速度不等时说明发射了一颗弹
-//    {
-//        ShootNum++;
-//        Shoot_Speed_Last = Shoot_Speed_Now;
-//    }
-//    shoot_time = xTaskGetTickCount();//获取弹丸发射时的系统时间
-//    //shoot_ping = shoot_time - REVOL_uiGetRevolTime();//计算延迟
-//}
+
 
 /**
   * @brief  读取发弹量

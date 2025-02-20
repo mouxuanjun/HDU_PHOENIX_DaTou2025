@@ -7,8 +7,11 @@
 #include "Remote.h"
 #include "M3508.h"
 #include "M2006.h"
+#include "judge.h"
 
 #define Single_Angle 1024
+#define M2006_Speed -2000
+#define Speed17mm_PT 200
 
 void Shoot_Reload_Choose(void);
 void Shoot_Remote_Control(void);

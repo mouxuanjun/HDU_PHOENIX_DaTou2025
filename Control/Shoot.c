@@ -62,23 +62,43 @@ void Shoot_Move(void)
  * @author HWX
  * @date 2024/10/20
  */
+float Speed17mm_Min = 22, Speed17mm_Max = 24;
+float Speed17mm_Set = 23, Speed17mm_Now ,Speed17mm_Last;
+int16_t M3508_Speed=6688;
 void Shoot_Remote_Control(void)
 {
+    //摩擦轮部分
+    Speed17mm_Now = JUDGE_usGetSpeedHeat17();
+
+    if(Speed17mm_Now > 14)
+    {   
+        if(Speed17mm_Now != Speed17mm_Last)//更新新值才处理
+        {
+            if(Speed17mm_Now<Speed17mm_Min || Speed17mm_Now>Speed17mm_Max)
+            {
+                M3508_Speed = M3508_Speed * (Speed17mm_Set / Speed17mm_Now);
+            }
+            Speed17mm_Last = Speed17mm_Now;
+        }
+
+    }
     if(RC.s1 == 2)
     {
-        M3508_Shoot[0].Set_Speed = 6688;
-				M3508_Shoot[1].Set_Speed = -6688;
+        M3508_Shoot[0].Set_Speed = M3508_Speed;//6688
+		M3508_Shoot[1].Set_Speed = -M3508_Speed;//-6688
     }else{
         M3508_Shoot[0].Set_Speed = 0;
-				M3508_Shoot[1].Set_Speed = 0;
-				M2006_Rammer.Set_Speed = 0;
+        M3508_Shoot[1].Set_Speed = 0;
+        M2006_Rammer.Set_Speed = 0;
     }
+
+    //拨弹盘部分
     switch (Car_Mode.Shoot)
     {
     case Shoot_Plugins:
         if(RC.s1 == 2 && RC.wheel>=300)
 			{					
-        M2006_Rammer.Set_Speed = -2000;
+        M2006_Rammer.Set_Speed = M2006_Speed;
 			}else 
 			{
                 M2006_Rammer.Set_Speed = 0;
@@ -98,7 +118,7 @@ void Shoot_Remote_Control(void)
         {
             if(ABS(M2006_Rammer.total_angle) < MOTOR_2006_CIRCLE_ANGLE / 8.0f) //未转过一个齿位
             {
-                M2006_Rammer.Set_Speed = -2000;
+                M2006_Rammer.Set_Speed = M2006_Speed;
             }
             else
             {
@@ -111,7 +131,7 @@ void Shoot_Remote_Control(void)
     case Shoot_Sustain:
 			if(RC.wheel >= 300 && RC.s1 == 2)
 			{
-                M2006_Rammer.Set_Speed = -2000;
+                M2006_Rammer.Set_Speed = M2006_Speed;
 			}else 
 			{
                 M2006_Rammer.Set_Speed = 0;
@@ -121,9 +141,6 @@ void Shoot_Remote_Control(void)
         break;
     }
 }
-
-
-
 
 /**
  * @file Shoot.c
@@ -177,3 +194,9 @@ void Shoot_Stop(void)
     Set_M3508_Shoot_Voltage(&hcan2,M3508_Shoot);
     Set_M2006_Motor_Voltage(&hcan2,M2006_Rammer);
 }
+
+// void Shoot_KeyBoard_Control(void)
+// {
+    
+// }
+
