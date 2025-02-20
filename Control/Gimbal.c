@@ -15,6 +15,7 @@ float Pitch_ZiMiao_Filter[2]={0.01,0.99};
 /********************ÊäÈë¿ØÖÆ²¿·Ö********************/
 void Gimbal_Remote_Control(void);
 void Gimbal_KeyBorad_Control(void);
+void Gimbal_FastTurn(void);
 
 /********************½âËã²¿·Ö********************/
 void Gimbal_Calculate(void);
@@ -68,12 +69,6 @@ void Gimbal_Calculate(void)
 		}
         break;
     case Shoot_Plugins:
-/***********************²âÊÔ´úÂë**************************/
-
-//        Set_Pitch=Set_Pitch*Pitch_ZiMiao_Filter[1]+Computer_Rx_Message.pitch*Pitch_ZiMiao_Filter[0];
-//        Set_Yaw=Set_Yaw*Yaw_ZiMiao_Filter[1]+Computer_Rx_Message.yaw*Yaw_ZiMiao_Filter[0];
-
-/**************************²âÊÔÍê******************************/
 		if(Computer_Rx_Message.find_bool == '1')
 		{
             Set_Yaw=Computer_Rx_Message.yaw*Yaw_ZiMiao_Filter[0]+Set_Yaw*Yaw_ZiMiao_Filter[1];
@@ -175,10 +170,10 @@ void Gimbal_PID_Init_All(void)
     PID_init(&(GM6020_Yaw.Speed_PID),142,2,0,25000,25000);//200,1.3.0//195,1.3,0//142,2,0
 	//80,0.45,150//80,0.45,150
 	
-    PID_init(&(GM6020_Pitch.Angle_PID),30,0,1000,25000,25000);//35,0,1000//30,0,1000
-	//±àÂëÆ÷£»//200,0,75//200,0,200//80,0.4,60//60,0,90//2.5£¬0.01£¬0//2,0,0//2,0,0//60,0,60//200,0,400//30,0,600
-    PID_init(&(GM6020_Pitch.Speed_PID),130,1,0,25000,25000);//120,1,0//130,1,0
-	//±àÂëÆ÷£º//2.75,0,0//1,0,0//5,0,0//3,0,0//50£¬0.3£¬0//35,0.25,0//50,0.3,50//3,0.4,0//1.2,0,0//120,1,0
+    PID_init(&(GM6020_Pitch.Angle_PID),30,0,1000,25000,25000);
+    //35,0,1000//30,0,1000
+    PID_init(&(GM6020_Pitch.Speed_PID),130,1,0,25000,25000);
+    //120,1,0//130,1,0
 }
 
 /**
@@ -195,8 +190,47 @@ void Gimbal_PID_Clean_All(void)
     PID_init(&(GM6020_Yaw.Speed_PID),0,0,0,0,0);
 }
 
+bool fastturn = false, Q_judge = false;
+float Fastturn_Yaw, Temp_Yaw;
+void Gimbal_FastTurn(void)
+{
+		
+    if(IF_KEY_PRESSED_Q == 1 && Q_judge == true)
+    {
+        fastturn = true;
+        Fastturn_Yaw = Set_Yaw + 180;
+				while(Fastturn_Yaw > 180)
+				{
+					Fastturn_Yaw -= 360;
+				}
+				while(Fastturn_Yaw < -180)
+				{
+					Fastturn_Yaw += 360;
+				}
+					Temp_Yaw = Fastturn_Yaw;
+					Q_judge = false;
+		}
+				if(IF_KEY_PRESSED_Q == 0)
+				{
+					Q_judge = true;
+				}
+    if(fastturn == true)
+    {
+        Set_Yaw=Fastturn_Yaw*0.01f+Set_Yaw*0.99f;
+				if(fabs(Set_Yaw - Temp_Yaw)<5)
+				{
+						fastturn = false;
+				}
+    }
+
+}
+
 void Gimbal_KeyBorad_Control(void)
 {
-	Gimbal_Add.Pitch = -(float)RC.mouse.y/Gimbal_Pithch_KeyBoard;
-	Gimbal_Add.Yaw = (float)RC.mouse.x/Gimbal_Yaw_KeyBoard;
+    if(fastturn == false)
+    {
+        Gimbal_Add.Pitch = -(float)RC.mouse.y / Gimbal_Pitch_KeyBoard;
+        Gimbal_Add.Yaw = (float)RC.mouse.x / Gimbal_Yaw_KeyBoard;
+    }
 }
+

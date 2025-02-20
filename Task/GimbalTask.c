@@ -20,6 +20,7 @@ void GimbalTask(void const * argument)
             break;
         case Car_Keyboard:
             Gimbal_KeyBorad_Control();
+						Gimbal_FastTurn();
             Gimbal_Move();
         default:
             break;

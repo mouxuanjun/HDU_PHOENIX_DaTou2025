@@ -105,39 +105,43 @@ void Control_Mode_Choose(void)
 		default:
 			break;
 		}
-	}else if(RC.s1==3)
+	}
+	if(Car_Mode.State == Car_Remote)
 	{
-		switch (RC.s2)
+		if(RC.s1==3)
 		{
-		case 1:
-			Car_Mode.Action = FOLLOW;
-			break;
-		case 3:
-			Car_Mode.Action = NORMAL;
-			break;
-		case 2:
-			Car_Mode.Action = GYROSCOPE;
-			break;
-		default:
-			break;
-		}
-	}else if(RC.s1==2)
-	{
-		switch(RC.s2)
+			switch (RC.s2)
+			{
+			case 1:
+				Car_Mode.Action = FOLLOW;
+				break;
+			case 3:
+				Car_Mode.Action = NORMAL;
+				break;
+			case 2:
+				Car_Mode.Action = GYROSCOPE;
+				break;
+			default:
+				break;
+			}
+		}else if(RC.s1==2)
 		{
-		case 1:
-			Car_Mode.Shoot = Shoot_Plugins;
-			Computer_Tx_Message.mode = 0;
-			Computer_Tx_Message.rune_flag = 0;
-			break;
-		case 3:
-			Car_Mode.Shoot = Shoot_Sustain;
-			break;
-		case 2:
-			Car_Mode.Shoot = Shoot_Single;
-			Computer_Tx_Message.mode = 1;
-			Computer_Tx_Message.rune_flag = 2;
-			break;
+			switch(RC.s2)
+			{
+			case 1:
+				Car_Mode.Shoot = Shoot_Plugins;
+				Computer_Tx_Message.mode = 0;
+				Computer_Tx_Message.rune_flag = 0;
+				break;
+			case 3:
+				Car_Mode.Shoot = Shoot_Sustain;
+				break;
+			case 2:
+				Car_Mode.Shoot = Shoot_Single;
+				Computer_Tx_Message.mode = 1;
+				Computer_Tx_Message.rune_flag = 2;
+				break;
+			}
 		}
 	}
 	if(Car_Mode.State == Car_Keyboard)
@@ -162,5 +166,9 @@ void Control_Mode_Choose(void)
 		}
 		if(IF_KEY_PRESSED_F == 0)
 		F_judge = true;
+		if(RC.mouse.press_r == 1)
+			Car_Mode.Shoot = Shoot_Plugins;
+		else if(RC.mouse.press_r == 0 && Car_Mode.Shoot != Shoot_Single)
+			Car_Mode.Shoot = Shoot_Sustain;
 	}
 }
