@@ -19,7 +19,7 @@ void CAN_Filter_Init(void)
     can1_filter_st.FilterMode = CAN_FILTERMODE_IDMASK;
     can1_filter_st.FilterScale = CAN_FILTERSCALE_32BIT;
     can1_filter_st.FilterBank = 0;
-		can1_filter_st.SlaveStartFilterBank = 0;
+    can1_filter_st.SlaveStartFilterBank = 14;
 	
     can2_filter_st.FilterIdHigh = 0x0000;
     can2_filter_st.FilterIdLow = 0x0000;
@@ -30,12 +30,12 @@ void CAN_Filter_Init(void)
     can2_filter_st.FilterMode = CAN_FILTERMODE_IDMASK;
     can2_filter_st.FilterScale = CAN_FILTERSCALE_32BIT;
     can2_filter_st.FilterBank = 0;
-		can2_filter_st.SlaveStartFilterBank = 0;
+    can2_filter_st.SlaveStartFilterBank = 0;
 		//使能CAN通道
     HAL_CAN_ConfigFilter(&hcan1, &can1_filter_st);
     HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
     HAL_CAN_Start(&hcan1);
-		HAL_Delay(10);
+    HAL_Delay(10);
     HAL_CAN_ConfigFilter(&hcan2, &can2_filter_st);
     HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO0_MSG_PENDING);
     HAL_CAN_Start(&hcan2);
