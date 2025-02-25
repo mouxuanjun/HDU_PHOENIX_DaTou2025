@@ -55,10 +55,10 @@ void Chassis_Solution(void)
 void Chassis_Motor_Solution(void)
 {
 
-    M3508_Chassis[0].Set_Speed = Chassis_Speed.vx * 0.7071f * Speed_Set + Chassis_Speed.vy * 0.7071f * Speed_Set + Chassis_Speed.vw*Speed_Set*320 ;
-    M3508_Chassis[1].Set_Speed = -Chassis_Speed.vx * 0.7071f * Speed_Set + Chassis_Speed.vy * 0.7071f * Speed_Set + Chassis_Speed.vw*Speed_Set*320;
-    M3508_Chassis[2].Set_Speed = -Chassis_Speed.vx * 0.7071f * Speed_Set - Chassis_Speed.vy * 0.7071f * Speed_Set + Chassis_Speed.vw*Speed_Set*320;
-    M3508_Chassis[3].Set_Speed = Chassis_Speed.vx * 0.7071f * Speed_Set - Chassis_Speed.vy * 0.7071f * Speed_Set + Chassis_Speed.vw*Speed_Set*320 ;
+    M3508_Chassis[0].Set_Speed = (Chassis_Speed.vx*Transmission_Ratio*30.0f)/(3.14f*1.4142f*Wheel_Radius) + (Chassis_Speed.vy*Transmission_Ratio*30.0f)/(3.14f*1.4142f*Wheel_Radius) + (Chassis_Speed.vw*Chassis_Radius*30.0f*Transmission_Ratio)/(3.14f*Wheel_Radius);
+    M3508_Chassis[1].Set_Speed = -(Chassis_Speed.vx*Transmission_Ratio*30.0f)/(3.14f*1.4142f*Wheel_Radius) + (Chassis_Speed.vy*Transmission_Ratio*30.0f)/(3.14f*1.4142f*Wheel_Radius) + (Chassis_Speed.vw*Chassis_Radius*30.0f*Transmission_Ratio)/(3.14f*Wheel_Radius);
+    M3508_Chassis[2].Set_Speed = -(Chassis_Speed.vx*Transmission_Ratio*30.0f)/(3.14f*1.4142f*Wheel_Radius) - (Chassis_Speed.vy*Transmission_Ratio*30.0f)/(3.14f*1.4142f*Wheel_Radius) + (Chassis_Speed.vw*Chassis_Radius*30.0f*Transmission_Ratio)/(3.14f*Wheel_Radius);
+    M3508_Chassis[3].Set_Speed = (Chassis_Speed.vx*Transmission_Ratio*30.0f)/(3.14f*1.4142f*Wheel_Radius) - (Chassis_Speed.vy*Transmission_Ratio*30.0f)/(3.14f*1.4142f*Wheel_Radius) + (Chassis_Speed.vw*Chassis_Radius*30.0f*Transmission_Ratio)/(3.14f*Wheel_Radius);
 }
 
 
@@ -133,9 +133,9 @@ void Chassis_Remote_Control(void)
     switch (Car_Mode.Action)
     {
     case GYROSCOPE:
-        Temp1_Chassis_Speed.vx = (float)RC.ch3/300;//数值得大于287！！！不然超范围了
+        Temp1_Chassis_Speed.vx = (float)RC.ch3/300;
         Temp1_Chassis_Speed.vy = (float)RC.ch2/300;
-        Temp1_Chassis_Speed.vw = 0.046;
+        Temp1_Chassis_Speed.vw = 6.28f;
         break;
     case NORMAL:
         Temp1_Chassis_Speed.vx = (float)RC.ch3/250;
@@ -222,7 +222,7 @@ void  Chassis_KeyBoard_Control(void)
             Temp1_Chassis_Speed.vy = 2.0f;
         if(IF_KEY_PRESSED_A == 0 && IF_KEY_PRESSED_D == 0)
             Temp1_Chassis_Speed.vy = 0.0f;
-        Temp1_Chassis_Speed.vw = 0.046;
+        Temp1_Chassis_Speed.vw = 4.6;
         break;
     case NORMAL:
         if(IF_KEY_PRESSED_W == 1)
@@ -272,24 +272,22 @@ Chassis_Step step_l, step_s;
 float  Speed_V1_Fabs, Speed_V_Dif, Speed_W_Fabs,Speed_W_Dif , Speed_V2_Fabs;
 void Chassis_Speed_XiePo(Chassis_Speed_t* target_speed, Chassis_Speed_t* XiePo_speed) 
 {
-		
-    float fen;
-    //float bx, by;
     Speed_V1_Fabs = sqrtf(powf(XiePo_speed->vx, 2) + powf(XiePo_speed->vy, 2));
     Speed_V_Dif = sqrtf(powf(target_speed->vx - XiePo_speed->vx, 2) + powf(target_speed->vy - XiePo_speed->vy, 2));
 
     Speed_W_Fabs = fabs(XiePo_speed->vw);
     Speed_W_Dif = fabs(target_speed->vw - XiePo_speed->vw);
 
-    step_l.t = 0.005f * powf(Chassis_Power_Now / Chassis_Power_Limit, 2.0f);
+    step_l.t = 0.0035f * Chassis_Power_Now / (Chassis_Power_Limit - 12.5f);
 
-    if (Speed_W_Fabs > 0.00004f) {
-        step_l.w = (0 - XiePo_speed->vw) / Speed_W_Fabs * step_l.t / 100;
+    if (Speed_W_Fabs > 0.001f) {
+        step_l.w = (0 - XiePo_speed->vw) / Speed_W_Fabs * step_l.t * 3;
     }
     else {
         step_l.w = 0;
     }
-
+	
+    step_l.t = 0.0035f * powf(Chassis_Power_Now / (Chassis_Power_Limit - 5), 2.0f);
     if (Speed_V1_Fabs > 0.001f) {
         step_l.x = (0.0f - XiePo_speed->vx) / Speed_V1_Fabs * step_l.t;
         step_l.y = (0.0f - XiePo_speed->vy) / Speed_V1_Fabs * step_l.t;
@@ -298,16 +296,23 @@ void Chassis_Speed_XiePo(Chassis_Speed_t* target_speed, Chassis_Speed_t* XiePo_s
         step_l.x = 0;
         step_l.y = 0;
     }
-    step_s.t = 0.005f;
+    step_s.t = 0.0035f;
     Speed_V2_Fabs = sqrtf(powf(target_speed->vx, 2) + powf(target_speed->vy, 2));
-    if ( Speed_V2_Fabs > 0.001f) {
-        fen = powf(Speed_V1_Fabs /  Speed_V2_Fabs, 2.0f);
+    
+	
+    float fen;
+    if (Speed_V2_Fabs > 0.001f) 
+	{
+//        fen = powf(Speed_V1_Fabs /  Speed_V2_Fabs, 2.0f);
+        fen = Speed_V1_Fabs / Speed_V2_Fabs;
     }
     else {
         fen = 1;
     }
-    if (Speed_W_Dif > 0.00004f) {
-        step_s.w = (target_speed->vw - XiePo_speed->vw) / Speed_W_Dif * step_s.t / 500 * fen;
+	
+	if (Speed_W_Dif > 0.001f)
+	{
+        step_s.w = (target_speed->vw - XiePo_speed->vw) / Speed_W_Dif * step_s.t * 3 * fen;
     }
     else {
         step_s.w = 0;
@@ -323,18 +328,8 @@ void Chassis_Speed_XiePo(Chassis_Speed_t* target_speed, Chassis_Speed_t* XiePo_s
     XiePo_speed->vx = XiePo_speed->vx + step_l.x + step_s.x;
     XiePo_speed->vy = XiePo_speed->vy + step_l.y + step_s.y;
     XiePo_speed->vw = XiePo_speed->vw + step_l.w + step_s.w;
-		if(target_speed->vw==0)
-		{
-			XiePo_speed->vw=0;
-		}
-    // if (Speed_W_Fabs > 0.001 && Speed_V1_Fabs > 0.001) {
-    //     bx = XiePo_speed->vw / 500 * XiePo_speed->vy;
-    //     by = -XiePo_speed->vw / 500 * XiePo_speed->vx;
-    // }
-    // else {
-    //     bx = 0;
-    //     by = 0;
-    // }
-    // XiePo_speed->vx = XiePo_speed->vx + bx;
-    // XiePo_speed->vy = XiePo_speed->vy + by;
+	if(target_speed->vw==0)
+	{
+		XiePo_speed->vw=0;
+	}
 }
