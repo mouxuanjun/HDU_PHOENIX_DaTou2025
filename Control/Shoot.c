@@ -69,8 +69,8 @@ void Shoot_Remote_Control(void)
 {
     if(RC.s1 == 2)
     {
-        M3508_Shoot[0].Set_Speed = M3508_Speed;//6688
-		M3508_Shoot[1].Set_Speed = -M3508_Speed;//-6688
+        M3508_Shoot[0].Set_Speed = M3508_Speed;
+		M3508_Shoot[1].Set_Speed = -M3508_Speed;
     }else{
         M3508_Shoot[0].Set_Speed = 0;
         M3508_Shoot[1].Set_Speed = 0;
@@ -178,26 +178,19 @@ void Shoot_Stop(void)
     Set_M2006_Motor_Voltage(&hcan2,M2006_Rammer);
 }
 
-
-float Speed17mm_Min = 22, Speed17mm_Max = 24;
-float Speed17mm_Set = 23, Speed17mm_Now ,Speed17mm_Last;
+float Speed17mm_Min = 22.0f, Speed17mm_Max = 24.0f;
+float Speed17mm_Now ,Speed17mm_Last;
 void Speed17mm_Control(void)
 {
     Speed17mm_Now = JUDGE_usGetSpeedHeat17();
-
-    if(Speed17mm_Now > 13)
-    {   
-        if(Speed17mm_Now != Speed17mm_Last)//更新新值才处理
-        {
-            if(Speed17mm_Now<Speed17mm_Min || Speed17mm_Now>Speed17mm_Max)
-            {
-                M3508_Speed = M3508_Speed * (Speed17mm_Set / Speed17mm_Now);
-            }
-            Speed17mm_Last = Speed17mm_Now;
-        }
-
-    }
-
+	if(Speed17mm_Now != Speed17mm_Last)
+	{
+		Speed17mm_Last = Speed17mm_Now;
+		if(Speed17mm_Now >= Speed17mm_Max)
+			M3508_Speed -= 500;
+		if(Speed17mm_Now <= Speed17mm_Min)
+			M3508_Speed += 300;	
+	}
 }
 
 bool Shoot = false,R_judge = false;
