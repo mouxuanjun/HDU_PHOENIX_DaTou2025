@@ -12,8 +12,8 @@
 #define Gimbal_Pitch_MIN -24.0f
 #define Gimbal_Pithch_Remote 2000
 #define Gimbal_Yaw_Remote 2000
-#define Gimbal_Pitch_KeyBoard 5000
-#define Gimbal_Yaw_KeyBoard 2500
+#define Gimbal_Pitch_KeyBoard 2000
+#define Gimbal_Yaw_KeyBoard 1000
 
 typedef struct
 {
